@@ -3,4 +3,7 @@
     <color name="colorPrimary">#71d9c9</color>
     <color name="colorPrimaryDark">#71d9c9</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="black">#000</color>
+    <color name="white">#fff</color>
+    <color name="bg_account">#e2e2e2</color>
 </resources>

@@ -7,4 +7,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_size_medium">20sp</dimen>
     <dimen name="text_size_small">18sp</dimen>
+    <dimen name="text_size_big">22sp</dimen>
+    <dimen name="text_size_verysmall">14sp</dimen>
 </resources>

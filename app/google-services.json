@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "416426091012",
+    "firebase_url": "https://propulsion-a29da.firebaseio.com",
+    "project_id": "propulsion-a29da",
+    "storage_bucket": "propulsion-a29da.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416426091012:android:9578f913ead747b6",
+        "android_client_info": {
+          "package_name": "com.apt5.propulsion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416426091012-ou19nhi4fs1f59mjfnft6vgb02pt9dku.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwJcbZuAtTqlITJpBLm_3a8ClZ2ZwwaSA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

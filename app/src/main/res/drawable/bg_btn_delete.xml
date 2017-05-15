@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <selector>
+            <item android:state_pressed="true">
+                <shape android:shape="oval">
+                    <solid android:color="#e2e2e2" />
+
+                </shape>
+
+            </item>
+
+            <item>
+                <shape android:shape="oval">
+                    <solid android:color="#01ffffff" />
+
+                </shape>
+            </item>
+        </selector>
+    </item>
+
+    <item>
+        <bitmap
+            android:src="@drawable/ic_delete_bin"
+            android:gravity="center_vertical"></bitmap>
+    </item>
+
+</layer-list>
