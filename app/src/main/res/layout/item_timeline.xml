@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="330dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/activity_horizontal_margin"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="@dimen/activity_horizontal_margin">
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_item_timeline_title"
@@ -19,37 +22,60 @@
             android:textSize="@dimen/text_size_big" />
 
         <TextView
-            android:id="@+id/tv_item_timeline_author"
+            android:id="@+id/tv_item_timeline_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="By AAAAAAA"
+            android:text="15/05/2017"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_verysmall" />
 
         <TextView
             android:id="@+id/tv_item_timeline_tag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:text="#android"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_verysmall" />
 
         <TextView
-            android:id="@+id/tv_item_timeline_date"
+            android:id="@+id/tv_item_timeline_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="15/05/2017"
+            android:text="Adasdjsadjasdsad"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_small" />
+            android:textSize="@dimen/text_size_verysmall" />
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_item_timeline_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="By AAAAAAA"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_verysmall" />
+
+        <TextView
+            android:id="@+id/tv_item_timeline_likecount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="0 people like this"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_verysmall" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:src="@android:color/darker_gray"
+            android:layout_marginTop="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="15dp"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/ll_timeline_like"
@@ -63,15 +89,42 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/ic_like_uncheck" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:text="Like"
+                    android:textSize="@dimen/text_size_medium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_timeline_liked"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.01"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
                     android:src="@drawable/ic_like" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginLeft="10dp"
                     android:text="Like"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/text_size_medium" />
             </LinearLayout>
 
@@ -79,6 +132,7 @@
                 android:id="@+id/ll_timeline_comment"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:weightSum="1">
@@ -87,14 +141,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="15dp"
                     android:src="@drawable/ic_comment" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:text="Comment"
                     android:textSize="@dimen/text_size_medium" />
             </LinearLayout>

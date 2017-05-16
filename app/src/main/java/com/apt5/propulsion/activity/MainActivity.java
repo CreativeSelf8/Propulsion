@@ -20,6 +20,9 @@ import android.widget.TextView;
 
 import com.apt5.propulsion.R;
 import com.apt5.propulsion.fragment.AddIdeaFragment;
+import com.apt5.propulsion.fragment.DraftFragment;
+import com.apt5.propulsion.fragment.MyIdeaFragment;
+import com.apt5.propulsion.fragment.WorldIdeaFragment;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,6 +48,9 @@ public class MainActivity extends AppCompatActivity
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddIdeaFragment()).commit();
+        }
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -66,9 +72,18 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().findItem(R.id.nav_addidea).setChecked(true);
 
+        //display user info
         if (currentUser != null) {
-            initUserInfo();
+            View header = navigationView.getHeaderView(0);
+            imgUserAvatar = (ImageView) header.findViewById(R.id.img_user_avatar);
+            tvUserName = (TextView) header.findViewById(R.id.tv_user_name);
+            tvUserMail = (TextView) header.findViewById(R.id.tv_user_mail);
+
+            tvUserMail.setText(firebaseAuth.getCurrentUser().getEmail());
+            tvUserName.setText(firebaseAuth.getCurrentUser().getDisplayName());
+            Glide.with(header.getContext()).load(firebaseAuth.getCurrentUser().getPhotoUrl()).into(imgUserAvatar);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -77,20 +92,8 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView.getMenu().getItem(0).setChecked(true);
+
     }
-
-    private void initUserInfo() {
-        View header = navigationView.getHeaderView(0);
-        imgUserAvatar = (ImageView) findViewById(R.id.img_user_avatar);
-        tvUserName = (TextView) findViewById(R.id.tv_user_name);
-        tvUserMail = (TextView) findViewById(R.id.tv_user_mail);
-
-        tvUserMail.setText(currentUser.getEmail());
-        tvUserName.setText(currentUser.getDisplayName());
-        Glide.with(header.getContext()).load(currentUser.getPhotoUrl()).into(imgUserAvatar);
-    }
-
 
     @Override
     public void onBackPressed() {
@@ -121,8 +124,6 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -147,13 +148,13 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.fragment_container, new AddIdeaFragment());
             fragmentTransaction.commit();
         } else if (id == R.id.nav_worldidea) {
-            fragmentTransaction.replace(R.id.fragment_container, new AddIdeaFragment());
+            fragmentTransaction.replace(R.id.fragment_container, new WorldIdeaFragment());
             fragmentTransaction.commit();
         } else if (id == R.id.nav_myidea) {
-            fragmentTransaction.replace(R.id.fragment_container, new AddIdeaFragment());
+            fragmentTransaction.replace(R.id.fragment_container, new MyIdeaFragment());
             fragmentTransaction.commit();
         } else if (id == R.id.nav_draft) {
-            fragmentTransaction.replace(R.id.fragment_container, new AddIdeaFragment());
+            fragmentTransaction.replace(R.id.fragment_container, new DraftFragment());
             fragmentTransaction.commit();
         }
     }

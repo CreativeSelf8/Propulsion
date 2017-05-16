@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
+    android:layout_height="180dp"
     android:background="@drawable/side_nav_bar"
     android:gravity="bottom"
     android:orientation="vertical"
@@ -12,12 +12,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <ImageView
+    <com.mikhaellopez.circularimageview.CircularImageView
         android:id="@+id/img_user_avatar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@android:drawable/sym_def_app_icon"
+        app:civ_border_color="@android:color/white"
+        app:civ_border_width="1dp"
+        app:civ_shadow="true"
+        app:civ_shadow_radius="10"
+        app:civ_shadow_color="@android:color/black" />
 
     <TextView
         android:layout_width="match_parent"
@@ -26,6 +30,7 @@
         android:text="Android Studio"
         android:textSize="@dimen/text_size_medium"
         android:id="@+id/tv_user_name"
+        android:gravity="center_vertical"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
