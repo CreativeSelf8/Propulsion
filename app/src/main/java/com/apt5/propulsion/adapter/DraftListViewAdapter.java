@@ -2,38 +2,39 @@ package com.apt5.propulsion.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.apt5.propulsion.R;
+import com.apt5.propulsion.object.Idea;
 
 import java.util.List;
 
 /**
- * Created by Van Quyen on 5/15/2017.
+ * Created by Van Quyen on 5/18/2017.
  */
 
-public class GridViewPhotoAdapter extends BaseAdapter {
-    private List<Bitmap> bitmapList;
+public class DraftListViewAdapter extends BaseAdapter {
+    private List<Idea> ideaList;
     private Context context;
 
-    public GridViewPhotoAdapter(List<Bitmap> bitmapList, Context context) {
-        this.bitmapList = bitmapList;
+    public DraftListViewAdapter(List<Idea> ideaList, Context context) {
+        this.ideaList = ideaList;
         this.context = context;
     }
 
     @Override
     public int getCount() {
-        return bitmapList.size();
+        return ideaList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return bitmapList.get(position);
+        return ideaList.get(position);
     }
 
     @Override
@@ -43,16 +44,18 @@ public class GridViewPhotoAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         ViewHolder viewHolder;
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-            convertView = inflater.inflate(R.layout.item_gridphoto, parent, false);
+            convertView = inflater.inflate(R.layout.item_draft, parent, false);
 
             //set up viewholder
             viewHolder = new ViewHolder();
-            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.img_item_gridphoto);
+            viewHolder.imgDelete = (ImageView) convertView.findViewById(R.id.iv_draft_delete);
+            viewHolder.imgEdit = (ImageView) convertView.findViewById(R.id.iv_draft_edit);
+            viewHolder.tvDate = (TextView) convertView.findViewById(R.id.tv_draft_date);
+            viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tv_draft_title);
 
             // store the holder with the view
             convertView.setTag(viewHolder);
@@ -61,12 +64,16 @@ public class GridViewPhotoAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.imageView.setImageBitmap(bitmapList.get(position));
+        viewHolder.tvTitle.setText(ideaList.get(position).getTitle());
+        viewHolder.tvDate.setText(ideaList.get(position).getDate());
 
         return convertView;
     }
 
     static class ViewHolder {
-        ImageView imageView;
+        TextView tvTitle;
+        TextView tvDate;
+        ImageView imgDelete;
+        ImageView imgEdit;
     }
 }

@@ -112,7 +112,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         DatabaseReference newIdeaPost = firebaseDatabase.getReference().child(CHILD_IDEA).push();
         listEncodedImage = new ArrayList<>();
         for (Bitmap child : listBitmaps) {
-            listEncodedImage.add(encodedBitmap(child));
+            listEncodedImage.add(encodedBitmap(child, Bitmap.CompressFormat.JPEG, 100));
         }
         IdeaFb newIdea = new IdeaFb();
         String title = edtTitle.getText().toString();
@@ -150,11 +150,10 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    public String encodedBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        String imageEncoded = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
-        return imageEncoded;
+    public String encodedBitmap(Bitmap image, Bitmap.CompressFormat compressFormat, int quality) {
+        ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
+        image.compress(compressFormat, quality, byteArrayOS);
+        return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.DEFAULT);
     }
 
     @Override

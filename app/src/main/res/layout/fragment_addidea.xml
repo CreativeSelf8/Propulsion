@@ -54,18 +54,26 @@
 
     </LinearLayout>
 
-    <HorizontalScrollView
+    <!--<HorizontalScrollView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:layout_marginTop="15dp"-->
+    <!--android:visibility="visible">-->
+
+    <!--<GridView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:id="@+id/gv_addidea"-->
+    <!--android:horizontalSpacing="5dp"></GridView>-->
+    <!--</HorizontalScrollView>-->
+
+    <GridView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="15dp">
-
-        <GridView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/gv_addidea"
-            android:horizontalSpacing="5dp"></GridView>
-    </HorizontalScrollView>
+        android:id="@+id/gv_addidea"
+        android:horizontalSpacing="5dp"></GridView>
 
     <EditText
         android:layout_width="match_parent"

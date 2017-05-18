@@ -8,20 +8,25 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:layout_margin="10dp"
+        android:weightSum="10"
         android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="5"
             android:id="@+id/tv_draft_title"
             android:text="Idea Title"
+            android:singleLine="true"
+            android:maxLines="1"
             android:textStyle="bold"
+            android:ellipsize="end"
             android:textSize="20dp"
             android:textColor="@color/black"
             android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:id="@+id/tv_draft_date"
             android:gravity="center"
             android:layout_marginLeft="10dp"
@@ -33,15 +38,17 @@
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:id="@+id/iv_draft_edit"
             android:src="@drawable/ic_pencil_black"
             android:layout_height="match_parent" />
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:id="@+id/iv_draft_delete"
-            android:src="@drawable/ic_delete_bin"
+            android:src="@drawable/ic_trash"
             android:layout_height="match_parent" />
 
     </LinearLayout>
