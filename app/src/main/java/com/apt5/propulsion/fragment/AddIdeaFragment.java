@@ -19,9 +19,12 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.apt5.propulsion.CommonMethod;
 import com.apt5.propulsion.R;
 import com.apt5.propulsion.adapter.GridViewPhotoAdapter;
+import com.apt5.propulsion.object.Idea;
 import com.apt5.propulsion.object.IdeaFb;
+import com.apt5.propulsion.object.Picture;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +33,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.exceptions.RealmMigrationNeededException;
 
 import static com.apt5.propulsion.ConstantVar.CHILD_IDEA;
 
@@ -51,6 +60,9 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
     private GridViewPhotoAdapter adapter;
     private ArrayList<String> listEncodedImage;
     private FirebaseAuth firebaseAuth;
+    private Realm realm;
+    //idea đang duoc thao tac;
+    private Idea ideaedit;
 
     @Nullable
     @Override
@@ -59,6 +71,18 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
+
+        Realm.init(getActivity());
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+
+        try {
+            realm = Realm.getInstance(realmConfiguration);
+        }
+        catch (RealmMigrationNeededException r){
+            Realm.deleteRealm(realmConfiguration);
+            realm = Realm.getInstance(realmConfiguration);
+        }
+
 
         initView(rootView);
 
@@ -99,13 +123,67 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(pickPhoto, 1);
         } else if (v == btnDelete) {
-            clearContent();
+//            clearContent();
             //TODO : delete exist idea in realm
+            if (ideaedit != null)
+            {
+                realm.beginTransaction();
+                ideaedit.deleteFromRealm();
+                realm.commitTransaction();
+                clearContent();
+            } else
+                clearContent();
+
         } else if (v == btnSave) {
+
             //TODO : save idea to realm
+            if(edtTitle.getText().toString().equals(""))
+            {
+                Toast toast = Toast.makeText(getContext(),"Title is empty",Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            else if (edtDescription.getText().toString().equals(""))
+            {
+                Toast toast = Toast.makeText(getContext(),"Discription is empty",Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            else if (edtTag.getText().toString().equals(""))
+            {
+                Toast.makeText(getContext(),"Category is empty",Toast.LENGTH_SHORT).show();
+            }
+            else if (ideaedit != null)
+            {
+                saveEditIdeaToRelm();
+            }else {
+                saveNewIdeaToRealm();
+                clearContent();
+            }
         } else if (v == btnSubmit) {
             sendDataToServer();
         }
+    }
+
+    private void saveEditIdeaToRelm(){
+        realm.beginTransaction();
+        ideaedit.setTitle(edtTitle.getText().toString());
+        ideaedit.setCategory(edtTag.getText().toString());
+        ideaedit.setDescription(edtDescription.getText().toString());
+        realm.commitTransaction();
+    }
+
+    private void saveNewIdeaToRealm(){
+        Idea idea = new Idea();
+        Date date = Calendar.getInstance().getTime();
+        String datetime = date.toString();
+
+        idea.setTitletime(datetime+edtTitle.getText().toString());
+        idea.setTitle(edtTitle.getText().toString());
+        idea.setCategory(edtTag.getText().toString());
+        idea.setDescription(edtDescription.getText().toString());
+
+        realm.beginTransaction();
+        realm.copyToRealm(idea);
+        realm.commitTransaction();
     }
 
     private void sendDataToServer() {
@@ -167,8 +245,14 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
                         listBitmaps.add(bitmap);
-
+                        if (ideaedit!=null)
+                        {
+                            savePictureOfEditIdeatoRealm(bitmap);
+                        } else {
+                            savePictureOfNewIdeatoRealm(bitmap);
+                        }
                         adapter.notifyDataSetChanged();
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -176,10 +260,34 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    private void savePictureOfNewIdeatoRealm(Bitmap bitmap)
+    {
+        byte[] btm = CommonMethod.BitmaptoByteArray(bitmap);
+        Picture images = new Picture();
+//        images.setTitletime("");
+        Date date = Calendar.getInstance().getTime();
+        String time = date.toString();
+//        images.setCreateTitletime(time + ideaedit.getTitletime());
+        images.setKey("0");
+        images.setPicture(btm);
+    }
+
+    private void savePictureOfEditIdeatoRealm(Bitmap bitmap){
+        byte[] btm = CommonMethod.BitmaptoByteArray(bitmap);
+        Picture images = new Picture();
+        images.setTitletime(ideaedit.getTitletime());
+        Date date = Calendar.getInstance().getTime();
+        String time = date.toString();
+        images.setCreateTitletime(time + ideaedit.getTitletime());
+        images.setKey("1");
+        images.setPicture(btm);
+    }
+
     private void clearContent() {
         edtDescription.setText("");
         edtTag.setText("");
         edtTitle.setText("");
+        ideaedit = null;
         listBitmaps.clear();
         adapter.notifyDataSetChanged();
     }

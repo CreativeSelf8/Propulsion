@@ -65,7 +65,7 @@ public class DraftListViewAdapter extends BaseAdapter {
         }
 
         viewHolder.tvTitle.setText(ideaList.get(position).getTitle());
-        viewHolder.tvDate.setText(ideaList.get(position).getDate());
+        viewHolder.tvDate.setText(ideaList.get(position).getDate().toString());
 
         return convertView;
     }
