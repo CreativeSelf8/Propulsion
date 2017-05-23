@@ -169,7 +169,7 @@ public class MyIdeaFragment extends Fragment {
         //init view
         GridView gridViewPhoto = (GridView) rootView.findViewById(R.id.gv_idea_detail);
         TextView tvTitle = (TextView) rootView.findViewById(R.id.tv_idea_detail_title);
-        TextView tvDescription = (TextView) rootView.findViewById(R.id.tv_idea_detail_desciption);
+        TextView tvDescription = (TextView) rootView.findViewById(R.id.tv_idea_detail_description);
         TextView tvLikeCount = (TextView) rootView.findViewById(R.id.tv_idea_detail_likecount);
         TextView tvDate = (TextView) rootView.findViewById(R.id.tv_idea_detail_date);
         TextView tvTag = (TextView) rootView.findViewById(R.id.tv_idea_detail_tag);

@@ -62,6 +62,7 @@ public class GridViewPhotoAdapter extends BaseAdapter {
         }
 
         viewHolder.imageView.setImageBitmap(bitmapList.get(position));
+//        Glide.with(context).load(urlList.get(position)).into(viewHolder.imageView);
 
         return convertView;
     }

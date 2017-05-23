@@ -9,7 +9,6 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +24,14 @@ import com.apt5.propulsion.adapter.GridViewPhotoAdapter;
 import com.apt5.propulsion.object.Idea;
 import com.apt5.propulsion.object.IdeaFb;
 import com.apt5.propulsion.object.Picture;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -58,7 +61,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
     private FirebaseDatabase firebaseDatabase;
     private ArrayList<Bitmap> listBitmaps;
     private GridViewPhotoAdapter adapter;
-    private ArrayList<String> listEncodedImage;
+    private ArrayList<String> photoUrlList;
     private FirebaseAuth firebaseAuth;
     private Realm realm;
     //idea đang duoc thao tac;
@@ -83,7 +86,6 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
             realm = Realm.getInstance(realmConfiguration);
         }
 
-
         initView(rootView);
 
         return rootView;
@@ -99,7 +101,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         btnSave = (Button) rootView.findViewById(R.id.btn_addidea_save_as_draft);
         btnDelete = (Button) rootView.findViewById(R.id.btn_addidea_delete);
         listBitmaps = new ArrayList<>();
-        listEncodedImage = new ArrayList<>();
+        photoUrlList = new ArrayList<>();
         adapter = new GridViewPhotoAdapter(listBitmaps, getActivity());
 
         btnDelete.setOnClickListener(this);
@@ -175,9 +177,13 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         Idea idea = new Idea();
         Date date = Calendar.getInstance().getTime();
         String datetime = date.toString();
+        long now = System.currentTimeMillis();
+        String currentTime = CommonMethod.convertToDate(now);
 
         idea.setTitletime(datetime+edtTitle.getText().toString());
+        idea.setTime(currentTime);
         idea.setTitle(edtTitle.getText().toString());
+        idea.setDate(date);
         idea.setCategory(edtTag.getText().toString());
         idea.setDescription(edtDescription.getText().toString());
 
@@ -188,9 +194,9 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
 
     private void sendDataToServer() {
         DatabaseReference newIdeaPost = firebaseDatabase.getReference().child(CHILD_IDEA).push();
-        listEncodedImage = new ArrayList<>();
+        photoUrlList = new ArrayList<>();
         for (Bitmap child : listBitmaps) {
-            listEncodedImage.add(encodedBitmap(child, Bitmap.CompressFormat.JPEG, 100));
+            saveImageToStorage(child);
         }
         IdeaFb newIdea = new IdeaFb();
         String title = edtTitle.getText().toString();
@@ -206,7 +212,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
             newIdea.setTag(tag);
             newIdea.setAuthor(author);
             newIdea.setDate(time);
-            newIdea.setEncodedImageList(listEncodedImage);
+            newIdea.setPhotoUrl(photoUrlList);
             newIdea.setId(id);
             newIdea.setAuthorId(firebaseAuth.getCurrentUser().getUid());
 
@@ -228,10 +234,25 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    public String encodedBitmap(Bitmap image, Bitmap.CompressFormat compressFormat, int quality) {
-        ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
-        image.compress(compressFormat, quality, byteArrayOS);
-        return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.DEFAULT);
+    private void saveImageToStorage(Bitmap bitmap) {
+        String fileName = "" + bitmap.hashCode();
+        StorageReference reference = FirebaseStorage.getInstance().getReference().child("images" + "/" + fileName);
+        //compress image
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream);
+
+        byte[] data = byteArrayOutputStream.toByteArray();
+        UploadTask uploadTask = reference.putBytes(data);
+
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                @SuppressWarnings("VisibleForTests")
+                final Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                photoUrlList.add(downloadUrl.toString());
+            }
+        });
     }
 
     @Override

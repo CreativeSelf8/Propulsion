@@ -13,7 +13,7 @@ public class IdeaFb {
     private String tag;
     private long date;
     private String id;
-    private List<String> encodedImageList;
+    private List<String> photoUrl;
     private List<String> likelist;
     private List<Comment> commentList;
     private String authorId;
@@ -45,12 +45,12 @@ public class IdeaFb {
         this.commentList = commentList;
     }
 
-    public List<String> getEncodedImageList() {
-        return encodedImageList;
+    public List<String> getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setEncodedImageList(List<String> encodedImageList) {
-        this.encodedImageList = encodedImageList;
+    public void setPhotoUrl(List<String> photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public String getId() {

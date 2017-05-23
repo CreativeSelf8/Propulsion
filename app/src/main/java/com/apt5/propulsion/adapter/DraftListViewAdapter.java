@@ -2,6 +2,8 @@ package com.apt5.propulsion.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.apt5.propulsion.Keys;
 import com.apt5.propulsion.R;
 import com.apt5.propulsion.object.Idea;
 
@@ -43,7 +46,7 @@ public class DraftListViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
@@ -65,7 +68,23 @@ public class DraftListViewAdapter extends BaseAdapter {
         }
 
         viewHolder.tvTitle.setText(ideaList.get(position).getTitle());
-        viewHolder.tvDate.setText(ideaList.get(position).getDate().toString());
+        viewHolder.tvDate.setText(ideaList.get(position).getTime());
+
+        viewHolder.imgEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String pos = ideaList.get(position).getTitletime().toString();
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putString("position", pos);
+//                intent.putExtra("position",pos);
+                intent.putExtra("data", bundle);
+                intent.setAction(Keys.CHANGE_FRAGMENT_START_SEND);
+//                Toast.makeText(context,pos,Toast.LENGTH_SHORT).show();
+                context.sendBroadcast(intent);
+            }
+        });
 
         return convertView;
     }

@@ -1,5 +1,7 @@
 package com.apt5.propulsion.object;
 
+import android.support.annotation.NonNull;
+
 import java.util.Date;
 
 import io.realm.RealmObject;
@@ -10,7 +12,7 @@ import io.realm.annotations.Required;
  * Created by Tran Truong on 4/24/2017.
  */
 
-public class Idea extends RealmObject {
+public class Idea extends RealmObject implements Comparable<Idea> {
     @PrimaryKey
     @Required
     private String titletime;
@@ -20,6 +22,16 @@ public class Idea extends RealmObject {
     private int categoryId;
     private String time;
     private Date date;
+
+    public Idea() {
+    }
+
+    public Idea(String title, String time, String titletime, Date date) {
+        this.titletime = titletime;
+        this.title = title;
+        this.time = time;
+        this.date = date;
+    }
 
     public int getCategoryId() {
         return categoryId;
@@ -76,5 +88,14 @@ public class Idea extends RealmObject {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    @Override
+    public int compareTo(@NonNull Idea o) {
+        if (this.date.after(o.date))
+            return -1;
+        else if (this.date.before(o.date))
+            return 1;
+        return 0;
     }
 }
