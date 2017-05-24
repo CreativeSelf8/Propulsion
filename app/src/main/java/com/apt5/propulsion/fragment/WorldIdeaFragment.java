@@ -132,7 +132,7 @@ public class WorldIdeaFragment extends Fragment implements SwipeRefreshLayout.On
                         for (DataSnapshot snapshot : child.child("encodedImageList").getChildren()) {
                             listImage.add(snapshot.getKey());
                         }
-                        idea.setEncodedImageList(listImage);
+                        idea.setPhotoUrl(listImage);
                     }
                     ideaList.add(idea);
                 }
@@ -165,8 +165,8 @@ public class WorldIdeaFragment extends Fragment implements SwipeRefreshLayout.On
         View rootView = layoutInflater.inflate(R.layout.layout_idea_detail, null, false);
         bitmapList = new ArrayList<>();
 
-        if (idea.getEncodedImageList() != null) {
-            for (String encodedImage : idea.getEncodedImageList()) {
+        if (idea.getPhotoUrl() != null) {
+            for (String encodedImage : idea.getPhotoUrl()) {
                 try {
                     bitmapList.add(decodeFromFirebaseBase64(encodedImage));
                 } catch (IOException e) {
@@ -174,7 +174,7 @@ public class WorldIdeaFragment extends Fragment implements SwipeRefreshLayout.On
             }
         }
 
-        gridViewPhotoAdapter = new GridViewPhotoAdapter(bitmapList, getActivity());
+        //gridViewPhotoAdapter = new GridViewPhotoAdapter(bitmapList, getActivity());
 
         //init view
         GridView gridViewPhoto = (GridView) rootView.findViewById(R.id.gv_idea_detail);

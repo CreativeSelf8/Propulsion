@@ -123,12 +123,12 @@ public class MyIdeaFragment extends Fragment {
                         }
                         idea.setLikeList(listLike);
                     }
-                    if (child.hasChild("encodedImageList")) {
+                    if (child.hasChild("photoUrl")) {
                         List<String> listImage = new ArrayList<String>();
-                        for (DataSnapshot snapshot : child.child("encodedImageList").getChildren()) {
+                        for (DataSnapshot snapshot : child.child("photoUrl").getChildren()) {
                             listImage.add(snapshot.getKey());
                         }
-                        idea.setEncodedImageList(listImage);
+                        idea.setPhotoUrl(listImage);
                     }
                     if (idea.getAuthorId().equals(firebaseAuth.getCurrentUser().getUid())) {
                         ideaList.add(idea);
@@ -155,8 +155,8 @@ public class MyIdeaFragment extends Fragment {
         View rootView = layoutInflater.inflate(R.layout.layout_idea_detail, null, false);
         bitmapList = new ArrayList<>();
 
-        if (idea.getEncodedImageList() != null) {
-            for (String encodedImage : idea.getEncodedImageList()) {
+        if (idea.getPhotoUrl() != null) {
+            for (String encodedImage : idea.getPhotoUrl()) {
                 try {
                     bitmapList.add(decodeFromFirebaseBase64(encodedImage));
                 } catch (IOException e) {
@@ -164,7 +164,7 @@ public class MyIdeaFragment extends Fragment {
             }
         }
 
-        gridViewPhotoAdapter = new GridViewPhotoAdapter(bitmapList, getActivity());
+        //gridViewPhotoAdapter = new GridViewPhotoAdapter(bitmapList, getActivity());
 
         //init view
         GridView gridViewPhoto = (GridView) rootView.findViewById(R.id.gv_idea_detail);

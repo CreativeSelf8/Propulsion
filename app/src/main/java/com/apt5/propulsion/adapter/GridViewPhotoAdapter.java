@@ -3,6 +3,7 @@ package com.apt5.propulsion.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 
 import com.apt5.propulsion.R;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -18,10 +20,10 @@ import java.util.List;
  */
 
 public class GridViewPhotoAdapter extends BaseAdapter {
-    private List<Bitmap> bitmapList;
+    private List<String> bitmapList;
     private Context context;
 
-    public GridViewPhotoAdapter(List<Bitmap> bitmapList, Context context) {
+    public GridViewPhotoAdapter(List<String> bitmapList, Context context) {
         this.bitmapList = bitmapList;
         this.context = context;
     }
@@ -39,6 +41,11 @@ public class GridViewPhotoAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return 0;
+    }
+
+    public void updateItem(String bitmap) {
+        bitmapList.add(bitmap);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -61,7 +68,9 @@ public class GridViewPhotoAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.imageView.setImageBitmap(bitmapList.get(position));
+        File newFile = new File(bitmapList.get(position));
+        Bitmap myBitmap = BitmapFactory.decodeFile(newFile.getAbsolutePath());
+        viewHolder.imageView.setImageBitmap(myBitmap);
 //        Glide.with(context).load(urlList.get(position)).into(viewHolder.imageView);
 
         return convertView;
