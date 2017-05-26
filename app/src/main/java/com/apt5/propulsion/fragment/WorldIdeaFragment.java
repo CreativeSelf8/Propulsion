@@ -1,8 +1,6 @@
 package com.apt5.propulsion.fragment;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,7 +19,7 @@ import android.widget.TextView;
 
 import com.apt5.propulsion.CommonMethod;
 import com.apt5.propulsion.R;
-import com.apt5.propulsion.adapter.GridViewPhotoAdapter;
+import com.apt5.propulsion.adapter.GlideImageGridViewAdapter;
 import com.apt5.propulsion.adapter.WorldIdeaRecyclerViewAdapter;
 import com.apt5.propulsion.object.IdeaFb;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,7 +28,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,8 +47,8 @@ public class WorldIdeaFragment extends Fragment implements SwipeRefreshLayout.On
     private LinearLayoutManager layoutManager;
     private FirebaseAuth firebaseAuth;
     private PopupWindow popupWindow;
-    private GridViewPhotoAdapter gridViewPhotoAdapter;
-    private List<Bitmap> bitmapList;
+    private GlideImageGridViewAdapter gridViewAdapter;
+    private List<String> urlPhotoList;
 
     @Nullable
     @Override
@@ -127,10 +123,10 @@ public class WorldIdeaFragment extends Fragment implements SwipeRefreshLayout.On
                         }
                         idea.setLikeList(listLike);
                     }
-                    if (child.hasChild("encodedImageList")) {
+                    if (child.hasChild("photoUrl")) {
                         List<String> listImage = new ArrayList<String>();
-                        for (DataSnapshot snapshot : child.child("encodedImageList").getChildren()) {
-                            listImage.add(snapshot.getKey());
+                        for (DataSnapshot snapshot : child.child("photoUrl").getChildren()) {
+                            listImage.add(snapshot.getValue().toString());
                         }
                         idea.setPhotoUrl(listImage);
                     }
@@ -153,28 +149,17 @@ public class WorldIdeaFragment extends Fragment implements SwipeRefreshLayout.On
         getData();
     }
 
-
-    public static Bitmap decodeFromFirebaseBase64(String image) throws IOException {
-        byte[] decodedByteArray = android.util.Base64.decode(image, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
-    }
-
     private void showDetail(View v, final IdeaFb idea) {
         LayoutInflater layoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View rootView = layoutInflater.inflate(R.layout.layout_idea_detail, null, false);
-        bitmapList = new ArrayList<>();
+        urlPhotoList = new ArrayList<>();
 
         if (idea.getPhotoUrl() != null) {
-            for (String encodedImage : idea.getPhotoUrl()) {
-                try {
-                    bitmapList.add(decodeFromFirebaseBase64(encodedImage));
-                } catch (IOException e) {
-                }
-            }
+            urlPhotoList = idea.getPhotoUrl();
         }
 
-        //gridViewPhotoAdapter = new GridViewPhotoAdapter(bitmapList, getActivity());
+        gridViewAdapter = new GlideImageGridViewAdapter(urlPhotoList, getActivity());
 
         //init view
         GridView gridViewPhoto = (GridView) rootView.findViewById(R.id.gv_idea_detail);
@@ -183,13 +168,12 @@ public class WorldIdeaFragment extends Fragment implements SwipeRefreshLayout.On
         TextView tvLikeCount = (TextView) rootView.findViewById(R.id.tv_idea_detail_likecount);
         TextView tvDate = (TextView) rootView.findViewById(R.id.tv_idea_detail_date);
         TextView tvTag = (TextView) rootView.findViewById(R.id.tv_idea_detail_tag);
+        gridViewPhoto.setAdapter(gridViewAdapter);
 
         // get device size
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         final Point size = new Point();
         display.getSize(size);
-
-        gridViewPhoto.setAdapter(gridViewPhotoAdapter);
 
         //set data
         tvTitle.setText("Title: " + idea.getTitle());

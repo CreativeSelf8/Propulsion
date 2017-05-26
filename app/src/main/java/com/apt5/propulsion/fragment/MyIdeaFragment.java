@@ -1,15 +1,12 @@
 package com.apt5.propulsion.fragment;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -22,7 +19,7 @@ import android.widget.TextView;
 
 import com.apt5.propulsion.CommonMethod;
 import com.apt5.propulsion.R;
-import com.apt5.propulsion.adapter.GridViewPhotoAdapter;
+import com.apt5.propulsion.adapter.GlideImageGridViewAdapter;
 import com.apt5.propulsion.adapter.WorldIdeaRecyclerViewAdapter;
 import com.apt5.propulsion.object.IdeaFb;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,7 +28,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +45,8 @@ public class MyIdeaFragment extends Fragment {
     private FirebaseDatabase database;
     private LinearLayoutManager layoutManager;
     private FirebaseAuth firebaseAuth;
-    private GridViewPhotoAdapter gridViewPhotoAdapter;
-    private List<Bitmap> bitmapList;
+    private GlideImageGridViewAdapter gridViewAdapter;
+    private List<String> photoUrlList;
     private PopupWindow popupWindow;
 
     @Nullable
@@ -126,7 +122,7 @@ public class MyIdeaFragment extends Fragment {
                     if (child.hasChild("photoUrl")) {
                         List<String> listImage = new ArrayList<String>();
                         for (DataSnapshot snapshot : child.child("photoUrl").getChildren()) {
-                            listImage.add(snapshot.getKey());
+                            listImage.add(snapshot.getValue().toString());
                         }
                         idea.setPhotoUrl(listImage);
                     }
@@ -144,27 +140,17 @@ public class MyIdeaFragment extends Fragment {
         });
     }
 
-    public static Bitmap decodeFromFirebaseBase64(String image) throws IOException {
-        byte[] decodedByteArray = android.util.Base64.decode(image, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
-    }
-
     private void showDetail(View v, final IdeaFb idea) {
         LayoutInflater layoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View rootView = layoutInflater.inflate(R.layout.layout_idea_detail, null, false);
-        bitmapList = new ArrayList<>();
+        photoUrlList = new ArrayList<>();
 
         if (idea.getPhotoUrl() != null) {
-            for (String encodedImage : idea.getPhotoUrl()) {
-                try {
-                    bitmapList.add(decodeFromFirebaseBase64(encodedImage));
-                } catch (IOException e) {
-                }
-            }
+            photoUrlList = idea.getPhotoUrl();
         }
 
-        //gridViewPhotoAdapter = new GridViewPhotoAdapter(bitmapList, getActivity());
+        gridViewAdapter = new GlideImageGridViewAdapter(photoUrlList, getActivity());
 
         //init view
         GridView gridViewPhoto = (GridView) rootView.findViewById(R.id.gv_idea_detail);
@@ -179,7 +165,7 @@ public class MyIdeaFragment extends Fragment {
         final Point size = new Point();
         display.getSize(size);
 
-        gridViewPhoto.setAdapter(gridViewPhotoAdapter);
+        gridViewPhoto.setAdapter(gridViewAdapter);
 
         //set data
         tvTitle.setText("Title: " + idea.getTitle());

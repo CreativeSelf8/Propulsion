@@ -42,23 +42,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:ellipsize="end"
-        android:text="Tag"
         android:gravity="center_vertical"
+        android:text="Tag"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_small" />
 
-    <HorizontalScrollView
-        android:layout_width="match_parent"
+    <GridView
+        android:id="@+id/gv_idea_detail"
+        android:layout_width="fill_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="15dp">
-
-        <GridView
-            android:id="@+id/gv_idea_detail"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:horizontalSpacing="5dp"></GridView>
-    </HorizontalScrollView>
-
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:horizontalSpacing="2dp"
+        android:numColumns="5" />
 
     <TextView
         android:id="@+id/tv_idea_detail_description"
