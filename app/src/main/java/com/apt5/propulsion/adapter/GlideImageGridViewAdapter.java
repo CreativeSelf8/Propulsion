@@ -1,40 +1,59 @@
 package com.apt5.propulsion.adapter;
 
-import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.apt5.propulsion.R;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.apt5.propulsion.fragment.FullImageDialogFragment;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
+
+import static com.apt5.propulsion.ConstantVar.FULL_IMAGE;
 
 /**
  * Created by Van Quyen on 5/15/2017.
  */
 
-public class GlideImageGridViewAdapter extends BaseAdapter {
+public class GlideImageGridViewAdapter extends RecyclerView.Adapter<GlideImageGridViewAdapter.ViewHolder> {
     private List<String> urlList;
     private Context context;
+    private FragmentManager fragmentManager;
 
-    public GlideImageGridViewAdapter(List<String> urlList, Context context) {
+    public GlideImageGridViewAdapter(List<String> urlList, Context context, FragmentManager fragmentManager) {
         this.urlList = urlList;
         this.context = context;
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
-    public int getCount() {
-        return urlList.size();
+    public GlideImageGridViewAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View layoutView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_gridphoto, viewGroup, false);
+
+        ViewHolder holder = new ViewHolder(layoutView);
+
+        return holder;
     }
 
     @Override
-    public Object getItem(int position) {
-        return urlList.get(position);
+    public void onBindViewHolder(GlideImageGridViewAdapter.ViewHolder viewHolder, final int i) {
+//        Picasso.with(context).load(urlList.get(i)).resize(250,250).into(viewHolder.imageView);
+        Glide.with(context).load(urlList.get(i)).fitCenter().into(viewHolder.imageView);
+
+        viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FullImageDialogFragment dialogFragment = FullImageDialogFragment.newInstance(urlList.get(i));
+                dialogFragment.show(fragmentManager, FULL_IMAGE);
+            }
+        });
+
+        viewHolder.setIsRecyclable(false);
     }
 
     @Override
@@ -43,38 +62,16 @@ public class GlideImageGridViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        ViewHolder viewHolder;
-        if (convertView == null) {
-            // if it's not recycled, initialize some attributes
-            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-            convertView = inflater.inflate(R.layout.item_gridphoto, parent, false);
-
-            //set up viewholder
-            viewHolder = new ViewHolder();
-            viewHolder.imageView = (ImageView) convertView.findViewById(R.id.img_item_gridphoto);
-
-            // store the holder with the view
-            convertView.setTag(viewHolder);
-
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-        Picasso.with(context).load(urlList.get(position)).resize(250, 250).into(viewHolder.imageView, new Callback() {
-            @Override
-            public void onSuccess() {
-            }
-
-            @Override
-            public void onError() {
-            }
-        });
-
-        return convertView;
+    public int getItemCount() {
+        return urlList.size();
     }
 
-    static class ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            imageView = (ImageView) itemView.findViewById(R.id.img_item_gridphoto);
+        }
     }
 }

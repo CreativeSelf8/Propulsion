@@ -13,7 +13,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -159,15 +158,18 @@ public class WorldIdeaFragment extends Fragment implements SwipeRefreshLayout.On
             urlPhotoList = idea.getPhotoUrl();
         }
 
-        gridViewAdapter = new GlideImageGridViewAdapter(urlPhotoList, getActivity());
+        gridViewAdapter = new GlideImageGridViewAdapter(urlPhotoList, getActivity(), getChildFragmentManager());
 
         //init view
-        GridView gridViewPhoto = (GridView) rootView.findViewById(R.id.gv_idea_detail);
+        RecyclerView gridViewPhoto = (RecyclerView) rootView.findViewById(R.id.gv_idea_detail);
         TextView tvTitle = (TextView) rootView.findViewById(R.id.tv_idea_detail_title);
         TextView tvDescription = (TextView) rootView.findViewById(R.id.tv_idea_detail_description);
         TextView tvLikeCount = (TextView) rootView.findViewById(R.id.tv_idea_detail_likecount);
         TextView tvDate = (TextView) rootView.findViewById(R.id.tv_idea_detail_date);
         TextView tvTag = (TextView) rootView.findViewById(R.id.tv_idea_detail_tag);
+        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+
+        gridViewPhoto.setLayoutManager(horizontalLayoutManager);
         gridViewPhoto.setAdapter(gridViewAdapter);
 
         // get device size

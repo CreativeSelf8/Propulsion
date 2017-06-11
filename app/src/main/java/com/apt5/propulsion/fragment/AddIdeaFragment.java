@@ -10,14 +10,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.Toast;
 
 import com.apt5.propulsion.CommonMethod;
@@ -62,7 +61,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
     private EditText edtTag;
     private EditText edtDescription;
     private Button btnAttach;
-    private GridView gvPhoto;
+    private RecyclerView gvPhoto;
     private Button btnSubmit;
     private Button btnSave;
     private Button btnDelete;
@@ -72,6 +71,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
     private ArrayList<String> photoUrlList;
     private FirebaseAuth firebaseAuth;
     private Realm realm;
+    private LinearLayoutManager layoutManager;
     //idea đang duoc thao tac;
     private Idea ideaedit;
 
@@ -103,14 +103,23 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         edtTag = (EditText) rootView.findViewById(R.id.edt_addidea_tag);
         edtDescription = (EditText) rootView.findViewById(R.id.edt_addidea_desciption);
         btnAttach = (Button) rootView.findViewById(R.id.btn_addidea_add_file);
-        gvPhoto = (GridView) rootView.findViewById(R.id.gv_addidea);
+        gvPhoto = (RecyclerView) rootView.findViewById(R.id.gv_addidea);
         btnSubmit = (Button) rootView.findViewById(R.id.btn_addidea_submit_idea);
         btnSave = (Button) rootView.findViewById(R.id.btn_addidea_save_as_draft);
         btnDelete = (Button) rootView.findViewById(R.id.btn_addidea_delete);
         listBitmaps = new ArrayList<>();
+        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         photoUrlList = new ArrayList<>();
-        adapter = new GridViewPhotoAdapter(listBitmaps, getActivity());
+        adapter = new GridViewPhotoAdapter(listBitmaps, getActivity(), new GridViewPhotoAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(int position) {
+                listBitmaps.remove(position);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
         gvPhoto.setAdapter(adapter);
+        gvPhoto.setLayoutManager(layoutManager);
         photoUrlList = new ArrayList<>();
 
         btnDelete.setOnClickListener(this);
@@ -118,13 +127,6 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         btnSave.setOnClickListener(this);
         btnAttach.setOnClickListener(this);
 
-        gvPhoto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                listBitmaps.remove(position);
-                adapter.notifyDataSetChanged();
-            }
-        });
     }
 
     @Override
@@ -298,7 +300,6 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                 saveImageToStorage(myBitmap);
             }
             adapter.notifyDataSetChanged();
-            Log.i("PATH", imageList.get(0).path);
         }
     }
 

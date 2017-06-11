@@ -47,6 +47,8 @@ dependencies {
     compile 'com.mikhaellopez:circularimageview:3.0.2'
     compile 'com.github.darsh2:MultipleImageSelect:v0.0.4'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.artjimlop:altex-image-downloader:0.0.4'
+    compile 'com.github.volders:RxDownloadManager:11bd0bb418'
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'

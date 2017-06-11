@@ -47,14 +47,13 @@
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_small" />
 
-    <GridView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/gv_idea_detail"
-        android:layout_width="fill_parent"
-        android:layout_height="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
-        android:horizontalSpacing="2dp"
-        android:numColumns="5" />
+        android:horizontalSpacing="2dp" />
 
     <TextView
         android:id="@+id/tv_idea_detail_description"

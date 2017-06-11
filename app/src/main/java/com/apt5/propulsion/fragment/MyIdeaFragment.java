@@ -13,7 +13,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -150,21 +149,23 @@ public class MyIdeaFragment extends Fragment {
             photoUrlList = idea.getPhotoUrl();
         }
 
-        gridViewAdapter = new GlideImageGridViewAdapter(photoUrlList, getActivity());
+        gridViewAdapter = new GlideImageGridViewAdapter(photoUrlList, getActivity(), getChildFragmentManager());
 
         //init view
-        GridView gridViewPhoto = (GridView) rootView.findViewById(R.id.gv_idea_detail);
+        RecyclerView gridViewPhoto = (RecyclerView) rootView.findViewById(R.id.gv_idea_detail);
         TextView tvTitle = (TextView) rootView.findViewById(R.id.tv_idea_detail_title);
         TextView tvDescription = (TextView) rootView.findViewById(R.id.tv_idea_detail_description);
         TextView tvLikeCount = (TextView) rootView.findViewById(R.id.tv_idea_detail_likecount);
         TextView tvDate = (TextView) rootView.findViewById(R.id.tv_idea_detail_date);
         TextView tvTag = (TextView) rootView.findViewById(R.id.tv_idea_detail_tag);
+        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
 
         // get device size
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         final Point size = new Point();
         display.getSize(size);
 
+        gridViewPhoto.setLayoutManager(horizontalLayoutManager);
         gridViewPhoto.setAdapter(gridViewAdapter);
 
         //set data
