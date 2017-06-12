@@ -281,16 +281,13 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
 
         if (requestCode == Constants.REQUEST_CODE && resultCode == RESULT_OK && imageReturnedIntent != null) {
             ArrayList<Image> imageList = imageReturnedIntent.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
-//                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
-//                        listBitmaps.add(bitmap);
-//                        adapter.updateItem(bitmap);
+            //TODO : add list image to realm
 //                        if (ideaedit!=null)
 //                        {
 //                            savePictureOfEditIdeatoRealm(bitmap);
 //                        } else {
 //                            savePictureOfNewIdeatoRealm(bitmap);
 //                        }
-//                        adapter.notifyDataSetChanged();
             for (Image child : imageList) {
                 listBitmaps.add(child.path);
 
