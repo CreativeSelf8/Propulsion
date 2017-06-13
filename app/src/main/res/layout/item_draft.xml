@@ -41,14 +41,14 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:id="@+id/iv_draft_edit"
-            android:src="@drawable/ic_edit"
+            android:src="@mipmap/ic_action_edit"
             android:layout_height="match_parent" />
 
         <ImageView
             android:layout_width="0dp"
             android:layout_weight="1"
             android:id="@+id/iv_draft_delete"
-            android:src="@drawable/ic_trash"
+            android:src="@mipmap/ic_action_delete"
             android:layout_height="match_parent" />
 
     </LinearLayout>

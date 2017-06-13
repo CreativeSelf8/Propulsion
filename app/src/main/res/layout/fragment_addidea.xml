@@ -87,7 +87,7 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/ic_trash"
+            android:background="@mipmap/ic_action_delete"
             android:backgroundTint="@null" />
 
         <Button
