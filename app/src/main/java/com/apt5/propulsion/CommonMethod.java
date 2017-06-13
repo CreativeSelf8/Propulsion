@@ -32,4 +32,9 @@ public class CommonMethod {
         return bitmap;
     }
 
+    public static String convertToTime(long time) {
+        Date date = new Date(time);
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        return dateFormat.format(date);
+    }
 }

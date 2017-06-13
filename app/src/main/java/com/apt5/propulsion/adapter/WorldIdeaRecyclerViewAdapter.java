@@ -21,6 +21,7 @@ import com.apt5.propulsion.CommonMethod;
 import com.apt5.propulsion.R;
 import com.apt5.propulsion.object.Comment;
 import com.apt5.propulsion.object.IdeaFb;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -82,7 +83,7 @@ public class WorldIdeaRecyclerViewAdapter
 
         holder.bind(listIdea.get(position), listener);
 
-        final String date = CommonMethod.convertToDate(listIdea.get(position).getDate());
+        final String date = CommonMethod.convertToTime(listIdea.get(position).getDate());
 
         holder.tvTitle.setText(listIdea.get(position).getTitle() + "");
         holder.tvDescription.setText(listIdea.get(position).getDescription() + "");
@@ -209,7 +210,8 @@ public class WorldIdeaRecyclerViewAdapter
                     DatabaseReference commentRef = database.getReference().child(CHILD_IDEA).child(idea.getId()).child(CHILD_COMMENTLIST).push();
                     String commentId = commentRef.getKey();
                     database.getReference().child(CHILD_IDEA).child(idea.getId()).child(CHILD_COMMENTLIST)
-                            .child(commentId).setValue(new Comment(comment, idea.getAuthor(), System.currentTimeMillis(), commentId));
+                            .child(commentId).setValue(new Comment(comment, FirebaseAuth.getInstance().getCurrentUser().getDisplayName()
+                            , System.currentTimeMillis(), commentId));
                     edtComment.setText("");
                     getCommentList(idea);
                 }

@@ -47,7 +47,7 @@ public class WorldIdeaFragment extends Fragment implements SwipeRefreshLayout.On
     private FirebaseAuth firebaseAuth;
     private PopupWindow popupWindow;
     private GlideImageGridViewAdapter gridViewAdapter;
-    private List<String> urlPhotoList;
+    private ArrayList<String> urlPhotoList;
 
     @Nullable
     @Override
@@ -123,7 +123,7 @@ public class WorldIdeaFragment extends Fragment implements SwipeRefreshLayout.On
                         idea.setLikeList(listLike);
                     }
                     if (child.hasChild("photoUrl")) {
-                        List<String> listImage = new ArrayList<String>();
+                        ArrayList<String> listImage = new ArrayList<String>();
                         for (DataSnapshot snapshot : child.child("photoUrl").getChildren()) {
                             listImage.add(snapshot.getValue().toString());
                         }

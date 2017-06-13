@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent">
 
-    <ImageView
+    <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/img_full_image" />
+        android:id="@+id/vp_image"></android.support.v4.view.ViewPager>
 
     <ImageView
         android:layout_width="wrap_content"

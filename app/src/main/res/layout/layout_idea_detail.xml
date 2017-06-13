@@ -62,6 +62,7 @@
         android:layout_marginTop="15dp"
         android:ellipsize="end"
         android:text="Description"
+        android:textColor="@color/black"
         android:textSize="20sp" />
 
 </LinearLayout>

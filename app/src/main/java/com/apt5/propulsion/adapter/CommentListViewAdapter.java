@@ -64,7 +64,7 @@ public class CommentListViewAdapter extends BaseAdapter {
 
         viewHolder.tvName.setText(commentList.get(position).getAuthor());
         viewHolder.tvContent.setText(commentList.get(position).getContent());
-        viewHolder.tvDate.setText(CommonMethod.convertToDate(commentList.get(position).getDate()));
+        viewHolder.tvDate.setText(CommonMethod.convertToTime(commentList.get(position).getDate()));
 
         return convertView;
     }

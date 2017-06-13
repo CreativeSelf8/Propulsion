@@ -12,7 +12,7 @@ import com.apt5.propulsion.R;
 import com.apt5.propulsion.fragment.FullImageDialogFragment;
 import com.bumptech.glide.Glide;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import static com.apt5.propulsion.ConstantVar.FULL_IMAGE;
 
@@ -21,11 +21,11 @@ import static com.apt5.propulsion.ConstantVar.FULL_IMAGE;
  */
 
 public class GlideImageGridViewAdapter extends RecyclerView.Adapter<GlideImageGridViewAdapter.ViewHolder> {
-    private List<String> urlList;
+    private ArrayList<String> urlList;
     private Context context;
     private FragmentManager fragmentManager;
 
-    public GlideImageGridViewAdapter(List<String> urlList, Context context, FragmentManager fragmentManager) {
+    public GlideImageGridViewAdapter(ArrayList<String> urlList, Context context, FragmentManager fragmentManager) {
         this.urlList = urlList;
         this.context = context;
         this.fragmentManager = fragmentManager;
@@ -48,7 +48,7 @@ public class GlideImageGridViewAdapter extends RecyclerView.Adapter<GlideImageGr
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FullImageDialogFragment dialogFragment = FullImageDialogFragment.newInstance(urlList.get(i));
+                FullImageDialogFragment dialogFragment = FullImageDialogFragment.newInstance(urlList, i);
                 dialogFragment.show(fragmentManager, FULL_IMAGE);
             }
         });

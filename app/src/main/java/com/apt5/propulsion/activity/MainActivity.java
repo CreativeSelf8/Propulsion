@@ -1,5 +1,6 @@
 package com.apt5.propulsion.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -29,7 +31,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity
     private TextView tvUserName;
     private TextView tvUserMail;
     private NavigationView navigationView;
+    private ImageView imgLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +83,12 @@ public class MainActivity extends AppCompatActivity
             imgUserAvatar = (ImageView) header.findViewById(R.id.img_user_avatar);
             tvUserName = (TextView) header.findViewById(R.id.tv_user_name);
             tvUserMail = (TextView) header.findViewById(R.id.tv_user_mail);
+            imgLogout = (ImageView) header.findViewById(R.id.img_logout);
 
             tvUserMail.setText(firebaseAuth.getCurrentUser().getEmail());
             tvUserName.setText(firebaseAuth.getCurrentUser().getDisplayName());
-            Glide.with(header.getContext()).load(firebaseAuth.getCurrentUser().getPhotoUrl()).into(imgUserAvatar);
+            Glide.with(header.getContext()).load(firebaseAuth.getCurrentUser().getPhotoUrl()).fitCenter().into(imgUserAvatar);
+            imgLogout.setOnClickListener(this);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -91,8 +96,6 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
-
     }
 
     @Override
@@ -163,5 +166,33 @@ public class MainActivity extends AppCompatActivity
     protected void onStop() {
         super.onStop();
         firebaseAuth.removeAuthStateListener(authStateListener);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == imgLogout) {
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int choice) {
+                    switch (choice) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            //sign out
+                            FirebaseAuth.getInstance().signOut();
+
+                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                            finish();
+
+                            break;
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.announce_log_out)
+                    .setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+        }
     }
 }

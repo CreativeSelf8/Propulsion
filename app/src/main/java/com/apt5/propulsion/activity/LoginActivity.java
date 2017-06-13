@@ -20,13 +20,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by Van Quyen on 5/15/2017.
@@ -46,6 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        FirebaseApp.initializeApp(this);
+
         btnGoogle = (PercentRelativeLayout) findViewById(R.id.btGoogle);
         loadingProgressBar = new ProgressDialog(this);
         loadingProgressBar.setCancelable(false);
@@ -56,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
-
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
@@ -105,22 +104,24 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+        Log.d("LOGIN_ACTIVITY:", "firebaseAuthWithGoogle:" + account.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        JSONObject props = new JSONObject();
-                        try {
-                            props.put("Type", "Google");
-                            if (task.isSuccessful()) {
-                                props.put("UID", task.getResult().getUser().getUid());
-                                Log.e("MAIN_ACTIVITY", "task uid" + task.getResult().getUser().getUid());
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        handleTaskResult(task);
                     }
                 });
+    }
+
+    private void handleTaskResult(Task<AuthResult> task) {
+        if (!task.isSuccessful()) {
+            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
     }
 }

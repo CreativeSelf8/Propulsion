@@ -1,5 +1,6 @@
 package com.apt5.propulsion.object;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ public class IdeaFb {
     private String tag;
     private long date;
     private String id;
-    private List<String> photoUrl;
+    private ArrayList<String> photoUrl;
     private List<String> likelist;
     private List<Comment> commentList;
     private String authorId;
@@ -45,11 +46,11 @@ public class IdeaFb {
         this.commentList = commentList;
     }
 
-    public List<String> getPhotoUrl() {
+    public ArrayList<String> getPhotoUrl() {
         return photoUrl;
     }
 
-    public void setPhotoUrl(List<String> photoUrl) {
+    public void setPhotoUrl(ArrayList<String> photoUrl) {
         this.photoUrl = photoUrl;
     }
 

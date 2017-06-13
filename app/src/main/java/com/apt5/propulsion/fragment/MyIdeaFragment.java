@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -45,7 +44,7 @@ public class MyIdeaFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private FirebaseAuth firebaseAuth;
     private GlideImageGridViewAdapter gridViewAdapter;
-    private List<String> photoUrlList;
+    private ArrayList<String> photoUrlList;
     private PopupWindow popupWindow;
 
     @Nullable
@@ -63,7 +62,6 @@ public class MyIdeaFragment extends Fragment {
         recyclerViewIdea = (RecyclerView) rootView.findViewById(R.id.rv_world);
         database = FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-        Log.i("UID====", firebaseAuth.getCurrentUser().getUid() + "");
         ideaList = new ArrayList<>();
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 
@@ -119,7 +117,7 @@ public class MyIdeaFragment extends Fragment {
                         idea.setLikeList(listLike);
                     }
                     if (child.hasChild("photoUrl")) {
-                        List<String> listImage = new ArrayList<String>();
+                        ArrayList<String> listImage = new ArrayList<String>();
                         for (DataSnapshot snapshot : child.child("photoUrl").getChildren()) {
                             listImage.add(snapshot.getValue().toString());
                         }
