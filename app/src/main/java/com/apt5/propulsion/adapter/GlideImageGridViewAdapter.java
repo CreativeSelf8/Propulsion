@@ -42,7 +42,6 @@ public class GlideImageGridViewAdapter extends RecyclerView.Adapter<GlideImageGr
 
     @Override
     public void onBindViewHolder(GlideImageGridViewAdapter.ViewHolder viewHolder, final int i) {
-//        Picasso.with(context).load(urlList.get(i)).resize(250,250).into(viewHolder.imageView);
         Glide.with(context).load(urlList.get(i)).fitCenter().into(viewHolder.imageView);
 
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {

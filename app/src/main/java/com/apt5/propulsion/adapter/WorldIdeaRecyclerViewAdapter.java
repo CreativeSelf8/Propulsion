@@ -31,6 +31,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
+
 import static com.apt5.propulsion.ConstantVar.CHILD_COMMENTLIST;
 import static com.apt5.propulsion.ConstantVar.CHILD_IDEA;
 import static com.apt5.propulsion.ConstantVar.CHILD_LIKELIST;
@@ -100,7 +102,7 @@ public class WorldIdeaRecyclerViewAdapter
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                         if (databaseError != null) {
-                            Toast.makeText(context, databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                            Toasty.error(context, databaseError.getMessage(), Toast.LENGTH_LONG, true).show();
                         } else {
                         }
                         holder.btnLike.setVisibility(View.GONE);

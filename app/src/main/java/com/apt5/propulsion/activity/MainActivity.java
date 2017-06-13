@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.apt5.propulsion.Keys;
 import com.apt5.propulsion.R;
@@ -118,7 +117,6 @@ public class MainActivity extends AppCompatActivity
                 Realm realm = Realm.getInstance(realmConfiguration);
 
                 Idea ideaedit = realm.where(Idea.class).equalTo("titletime",pos).findFirst();
-                Toast.makeText(context,ideaedit.getTitle(),Toast.LENGTH_SHORT).show();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 AddIdeaFragment addIdeaFragment = new AddIdeaFragment(ideaedit);

@@ -26,6 +26,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import es.dmoral.toasty.Toasty;
+
 /**
  * Created by Van Quyen on 5/15/2017.
  */
@@ -67,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext()).enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
             @Override
             public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                Toast.makeText(LoginActivity.this, "Your account doesnot exists", Toast.LENGTH_LONG).show();
+                Toasty.error(LoginActivity.this, "Your account doesnot exists", Toast.LENGTH_LONG, true).show();
             }
         }).addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
 
@@ -117,8 +119,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void handleTaskResult(Task<AuthResult> task) {
         if (!task.isSuccessful()) {
-            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                    Toast.LENGTH_SHORT).show();
+            Toasty.error(LoginActivity.this, "Authentication failed.",
+                    Toast.LENGTH_SHORT, true).show();
         } else {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();

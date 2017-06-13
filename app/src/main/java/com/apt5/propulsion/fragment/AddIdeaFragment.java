@@ -1,12 +1,8 @@
 package com.apt5.propulsion.fragment;
 
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -24,7 +20,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.apt5.propulsion.CommonMethod;
-import com.apt5.propulsion.Keys;
 import com.apt5.propulsion.R;
 import com.apt5.propulsion.adapter.GridViewPhotoAdapter;
 import com.apt5.propulsion.object.Idea;
@@ -50,12 +45,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import es.dmoral.toasty.Toasty;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import io.realm.exceptions.RealmMigrationNeededException;
 
 import static android.app.Activity.RESULT_OK;
+import static android.widget.Toast.LENGTH_SHORT;
 import static com.apt5.propulsion.ConstantVar.CHILD_IDEA;
 
 /**
@@ -113,9 +110,6 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView(View rootView) {
-
-
-
         edtTitle = (EditText) rootView.findViewById(R.id.edt_addidea_title);
         edtTag = (EditText) rootView.findViewById(R.id.edt_addidea_tag);
         edtDescription = (EditText) rootView.findViewById(R.id.edt_addidea_desciption);
@@ -138,7 +132,6 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         pictures = new ArrayList<>();
         if (ideaedit == null)
         {
-            Toast.makeText(getContext(),"null",Toast.LENGTH_SHORT).show();
             RealmResults<Picture> realmResults = realm.where(Picture.class).equalTo("Key","0").findAll();
             for (int i = 0; i< realmResults.size(); i++)
             {
@@ -169,7 +162,6 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         btnSubmit.setOnClickListener(this);
         btnSave.setOnClickListener(this);
         btnAttach.setOnClickListener(this);
-
     }
 
     @Override
@@ -186,7 +178,6 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
             intent.putExtra(Constants.INTENT_EXTRA_LIMIT, 10);
             startActivityForResult(intent, Constants.REQUEST_CODE);
         } else if (v == btnDelete) {
-            //TODO : delete exist idea in realm
             if (ideaedit != null) {
                 realm.beginTransaction();
                 ideaedit.deleteFromRealm();
@@ -194,23 +185,20 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                 clearContent();
             } else
                 clearContent();
-
         } else if (v == btnSave) {
-
-            //TODO : save idea to realm
             if (edtTitle.getText().toString().equals("")) {
-                Toast toast = Toast.makeText(getContext(), "Title is empty", Toast.LENGTH_SHORT);
-                toast.show();
+                Toasty.warning(getActivity(), "Title is empty", LENGTH_SHORT, true).show();
             } else if (edtDescription.getText().toString().equals("")) {
-                Toast toast = Toast.makeText(getContext(), "Discription is empty", Toast.LENGTH_SHORT);
-                toast.show();
+                Toasty.warning(getActivity(), "Discription is empty", LENGTH_SHORT, true).show();
             } else if (edtTag.getText().toString().equals("")) {
-                Toast.makeText(getContext(), "Category is empty", Toast.LENGTH_SHORT).show();
+                Toasty.warning(getActivity(), "Category is empty", LENGTH_SHORT, true).show();
             } else if (ideaedit != null) {
                 saveEditIdeaToRelm();
+                Toasty.success(getActivity(), "Saved", LENGTH_SHORT, true).show();
             } else {
                 saveNewIdeaToRealm();
                 clearContent();
+                Toasty.success(getActivity(), "Saved", LENGTH_SHORT, true).show();
             }
         } else if (v == btnSubmit) {
             sendDataToServer();
@@ -283,15 +271,15 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                             if (databaseError != null) {
-                                Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                                Toasty.error(getActivity(), databaseError.getMessage(), Toast.LENGTH_LONG, true).show();
                             } else {
-                                Toast.makeText(getActivity(), "Success", Toast.LENGTH_LONG).show();
+                                Toasty.success(getActivity(), "Success", Toast.LENGTH_LONG, true).show();
                                 clearContent();
                             }
                         }
                     });
         } else {
-            Toast.makeText(getContext(), "Please fill in the blank space", Toast.LENGTH_LONG).show();
+            Toasty.error(getContext(), "Please fill in the blank space", Toast.LENGTH_LONG, true).show();
         }
 
     }
@@ -323,7 +311,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_LONG).show();
+                Toasty.error(getActivity(), e.toString(), Toast.LENGTH_LONG, true).show();
                 progressDialog.dismiss();
             }
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -368,10 +356,8 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
     private void savePictureOfNewIdeatoRealm(Bitmap bitmap) {
         byte[] btm = CommonMethod.BitmaptoByteArray(bitmap);
         Picture images = new Picture();
-//        images.setTitletime("");
         Date date = Calendar.getInstance().getTime();
         String time = date.toString();
-//        images.setCreateTitletime(time + ideaedit.getTitletime());
         images.setKey("0");
         images.setPicture(btm);
 
@@ -404,6 +390,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         edtTitle.setText("");
         ideaedit = null;
         listBitmaps.clear();
+        pictures.clear();
         adapter.notifyDataSetChanged();
     }
 }

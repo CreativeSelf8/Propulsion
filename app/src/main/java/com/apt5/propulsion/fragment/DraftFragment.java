@@ -31,8 +31,6 @@ import io.realm.exceptions.RealmMigrationNeededException;
  */
 
 public class DraftFragment extends Fragment {
-
-
     private RealmConfiguration realmConfiguration;
     private Realm realm;
     int position = 0;
@@ -40,7 +38,6 @@ public class DraftFragment extends Fragment {
     private ArrayList<Idea> ideas;
     private ArrayList<Idea> draftItems;
     private DraftListViewAdapter draftAdapter;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,8 +53,6 @@ public class DraftFragment extends Fragment {
         draftAdapter = new DraftListViewAdapter(draftItems, getActivity());
         Realm.init(getContext());
         realmConfiguration = new RealmConfiguration.Builder().build();
-//        realm = Realm.getDefaultInstance();
-
         //change schema when realm have new class
         try {
             realm = Realm.getInstance(realmConfiguration);
@@ -88,27 +83,21 @@ public class DraftFragment extends Fragment {
         View layout = inflater.inflate(R.layout.fragment_draft, container, false);
         draftAdapter.notifyDataSetChanged();
         return layout;
-
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         lv_viewdraft = (ListView) view.findViewById(R.id.lv_fg_draft);
-
     }
 
     public void loadDataforListDrafts() {
         draftAdapter = new DraftListViewAdapter(draftItems, getActivity());
         lv_viewdraft.setAdapter(draftAdapter);
-
-        //// TODO: 4/25/2017 delete a idea in viewdraft
-
         //set event click item of listview Draft
         lv_viewdraft.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-
                 //delete draft
                 view.findViewById(R.id.iv_draft_delete).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -136,11 +125,7 @@ public class DraftFragment extends Fragment {
                 });
             }
         });
-
     }
-
-    ;
-
     public void loadLocalDatabase() {
         draftItems.clear();
         ideas.clear();

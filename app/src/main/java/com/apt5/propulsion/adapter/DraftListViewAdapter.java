@@ -78,10 +78,8 @@ public class DraftListViewAdapter extends BaseAdapter {
                 Intent intent = new Intent();
                 Bundle bundle = new Bundle();
                 bundle.putString("position", pos);
-//                intent.putExtra("position",pos);
                 intent.putExtra("data", bundle);
                 intent.setAction(Keys.CHANGE_FRAGMENT_START_SEND);
-//                Toast.makeText(context,pos,Toast.LENGTH_SHORT).show();
                 context.sendBroadcast(intent);
             }
         });
