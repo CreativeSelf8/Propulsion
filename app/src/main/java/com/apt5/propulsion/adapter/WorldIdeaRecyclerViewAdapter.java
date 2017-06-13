@@ -116,10 +116,12 @@ public class WorldIdeaRecyclerViewAdapter
                     }
                 });
                 //set notification
-                String id = database.getReference().child(CHILD_NOTIFICATION).child(listIdea.get(position).getAuthorId()).getKey();
-                database.getReference().child(CHILD_NOTIFICATION).child(listIdea.get(position).getAuthorId())
-                        .child(id).setValue(new Message(firebaseAuth.getCurrentUser().getDisplayName() + " like your idea : " + listIdea.get(position).getTitle(),
-                        firebaseAuth.getCurrentUser().getUid()));
+                if (!firebaseAuth.getCurrentUser().getUid().equals(listIdea.get(position).getAuthorId())) {
+                    String id = database.getReference().child(CHILD_NOTIFICATION).child(listIdea.get(position).getAuthorId()).getKey();
+                    database.getReference().child(CHILD_NOTIFICATION).child(listIdea.get(position).getAuthorId())
+                            .child(id).setValue(new Message(firebaseAuth.getCurrentUser().getDisplayName() + " like your idea : " + listIdea.get(position).getTitle(),
+                            firebaseAuth.getCurrentUser().getUid()));
+                }
             }
         });
 
@@ -228,10 +230,12 @@ public class WorldIdeaRecyclerViewAdapter
                     getCommentList(idea);
 
                     //set notification
-                    String id = database.getReference().child(CHILD_NOTIFICATION).child(idea.getAuthorId()).getKey();
-                    database.getReference().child(CHILD_NOTIFICATION).child(idea.getAuthorId())
-                            .child(id).setValue(new Message(firebaseAuth.getCurrentUser().getDisplayName() + " comment on your idea : " + idea.getTitle(),
-                            firebaseAuth.getCurrentUser().getUid()));
+                    if (!firebaseAuth.getCurrentUser().getUid().equals(idea.getAuthorId())) {
+                        String id = database.getReference().child(CHILD_NOTIFICATION).child(idea.getAuthorId()).getKey();
+                        database.getReference().child(CHILD_NOTIFICATION).child(idea.getAuthorId())
+                                .child(id).setValue(new Message(firebaseAuth.getCurrentUser().getDisplayName() + " comment on your idea : " + idea.getTitle(),
+                                firebaseAuth.getCurrentUser().getUid()));
+                    }
                 }
             }
         });
