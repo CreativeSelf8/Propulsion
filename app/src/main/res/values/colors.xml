@@ -6,4 +6,9 @@
     <color name="black">#000</color>
     <color name="white">#fff</color>
     <color name="bg_account">#e2e2e2</color>
+    <color name="multiple_image_select_primary">#71d9c9</color>
+    <color name="multiple_image_select_primaryDark">#71d9c9</color>
+    <color name="multiple_image_select_primaryLight">#D1C4E9</color>
+    <color name="multiple_image_select_primaryText">#fff</color>
+    <color name="multiple_image_select_secondaryText">#fff</color>
 </resources>
