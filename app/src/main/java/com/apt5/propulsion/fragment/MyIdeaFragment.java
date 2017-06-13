@@ -73,7 +73,7 @@ public class MyIdeaFragment extends Fragment {
             public void onItemClick(IdeaFb content, View view, int position) {
                 showDetail(view, content);
             }
-        }, ideaList, getActivity(), database, firebaseAuth.getCurrentUser().getUid());
+        }, ideaList, getActivity(), database, firebaseAuth.getCurrentUser().getUid(), firebaseAuth);
 
         recyclerViewIdea.setAdapter(adapter);
     }

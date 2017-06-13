@@ -21,6 +21,7 @@ import com.apt5.propulsion.CommonMethod;
 import com.apt5.propulsion.R;
 import com.apt5.propulsion.object.Comment;
 import com.apt5.propulsion.object.IdeaFb;
+import com.apt5.propulsion.object.Message;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,6 +37,7 @@ import es.dmoral.toasty.Toasty;
 import static com.apt5.propulsion.ConstantVar.CHILD_COMMENTLIST;
 import static com.apt5.propulsion.ConstantVar.CHILD_IDEA;
 import static com.apt5.propulsion.ConstantVar.CHILD_LIKELIST;
+import static com.apt5.propulsion.ConstantVar.CHILD_NOTIFICATION;
 
 /**
  * Created by Van Quyen on 5/15/2017.
@@ -52,13 +54,16 @@ public class WorldIdeaRecyclerViewAdapter
     private PopupWindow popupWindow;
     private CommentListViewAdapter commentListViewAdapter;
     private List<Comment> commentArrayList;
+    private FirebaseAuth firebaseAuth;
 
-    public WorldIdeaRecyclerViewAdapter(OnItemClickListener listener, List<IdeaFb> listIdea, Context context, FirebaseDatabase database, String uid) {
+    public WorldIdeaRecyclerViewAdapter(OnItemClickListener listener, List<IdeaFb> listIdea, Context context,
+                                        FirebaseDatabase database, String uid, FirebaseAuth firebaseAuth) {
         this.listener = listener;
         this.listIdea = listIdea;
         this.context = context;
         this.database = database;
         this.uid = uid;
+        this.firebaseAuth = firebaseAuth;
     }
 
 
@@ -89,7 +94,7 @@ public class WorldIdeaRecyclerViewAdapter
 
         holder.tvTitle.setText(listIdea.get(position).getTitle() + "");
         holder.tvDescription.setText(listIdea.get(position).getDescription() + "");
-        holder.tvAuthor.setText("By " + listIdea.get(position).getAuthor());
+        holder.tvAuthor.setText("Posted by " + listIdea.get(position).getAuthor());
         holder.tvDate.setText(date);
 
         updateLike(holder.tvLikeCount, listIdea.get(position).getId());
@@ -110,6 +115,11 @@ public class WorldIdeaRecyclerViewAdapter
                         updateLike(holder.tvLikeCount, listIdea.get(position).getId());
                     }
                 });
+                //set notification
+                String id = database.getReference().child(CHILD_NOTIFICATION).child(listIdea.get(position).getAuthorId()).getKey();
+                database.getReference().child(CHILD_NOTIFICATION).child(listIdea.get(position).getAuthorId())
+                        .child(id).setValue(new Message(firebaseAuth.getCurrentUser().getDisplayName() + " like your idea : " + listIdea.get(position).getTitle(),
+                        firebaseAuth.getCurrentUser().getUid()));
             }
         });
 
@@ -216,6 +226,12 @@ public class WorldIdeaRecyclerViewAdapter
                             , System.currentTimeMillis(), commentId));
                     edtComment.setText("");
                     getCommentList(idea);
+
+                    //set notification
+                    String id = database.getReference().child(CHILD_NOTIFICATION).child(idea.getAuthorId()).getKey();
+                    database.getReference().child(CHILD_NOTIFICATION).child(idea.getAuthorId())
+                            .child(id).setValue(new Message(firebaseAuth.getCurrentUser().getDisplayName() + " comment on your idea : " + idea.getTitle(),
+                            firebaseAuth.getCurrentUser().getUid()));
                 }
             }
         });

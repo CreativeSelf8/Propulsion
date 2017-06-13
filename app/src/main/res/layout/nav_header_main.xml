@@ -54,6 +54,8 @@
                 android:textColor="@color/white"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_verysmall"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="android.studio@android.com" />
         </LinearLayout>
 

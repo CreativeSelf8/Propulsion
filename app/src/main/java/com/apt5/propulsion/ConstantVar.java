@@ -13,4 +13,5 @@ public class ConstantVar {
     public static final String CHILD_COMMENTLIST = "commentList";
     public static final String CHILD_LIKELIST = "likelist";
     public static final String FULL_IMAGE = "FULL_IMAGE";
+    public static final String CHILD_NOTIFICATION = "notification";
 }

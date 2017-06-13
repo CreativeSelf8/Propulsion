@@ -374,7 +374,6 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         realm.commitTransaction();
 
         pictures.add(images);
-
     }
 
     private void savePictureOfEditIdeatoRealm(Bitmap bitmap) {

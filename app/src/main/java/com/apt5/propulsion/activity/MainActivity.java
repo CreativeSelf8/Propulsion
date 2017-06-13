@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.apt5.propulsion.Keys;
 import com.apt5.propulsion.R;
+import com.apt5.propulsion.ReceiveNotificationService;
 import com.apt5.propulsion.fragment.AddIdeaFragment;
 import com.apt5.propulsion.fragment.DraftFragment;
 import com.apt5.propulsion.fragment.MyIdeaFragment;
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity
             tvUserName.setText(firebaseAuth.getCurrentUser().getDisplayName());
             Glide.with(header.getContext()).load(firebaseAuth.getCurrentUser().getPhotoUrl()).fitCenter().into(imgUserAvatar);
             imgLogout.setOnClickListener(this);
+            startService(new Intent(MainActivity.this, ReceiveNotificationService.class));
         }
 
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

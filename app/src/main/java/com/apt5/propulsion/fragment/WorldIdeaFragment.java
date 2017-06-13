@@ -79,7 +79,7 @@ public class WorldIdeaFragment extends Fragment implements SwipeRefreshLayout.On
             public void onItemClick(IdeaFb content, View view, int position) {
                 showDetail(view, content);
             }
-        }, ideaList, getActivity(), database, firebaseAuth.getCurrentUser().getUid());
+        }, ideaList, getActivity(), database, firebaseAuth.getCurrentUser().getUid(), firebaseAuth);
 
         recyclerViewIdea.setAdapter(adapter);
     }
