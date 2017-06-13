@@ -216,6 +216,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         realm.beginTransaction();
         ideaedit.setTitle(edtTitle.getText().toString());
         ideaedit.setCategory(edtTag.getText().toString());
+
         ideaedit.setDescription(edtDescription.getText().toString());
         realm.commitTransaction();
     }
@@ -373,6 +374,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         realm.commitTransaction();
 
         pictures.add(images);
+
     }
 
     private void savePictureOfEditIdeatoRealm(Bitmap bitmap) {
