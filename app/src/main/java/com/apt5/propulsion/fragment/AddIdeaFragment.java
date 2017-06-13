@@ -1,8 +1,12 @@
 package com.apt5.propulsion.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -20,6 +24,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.apt5.propulsion.CommonMethod;
+import com.apt5.propulsion.Keys;
 import com.apt5.propulsion.R;
 import com.apt5.propulsion.adapter.GridViewPhotoAdapter;
 import com.apt5.propulsion.object.Idea;
@@ -47,6 +52,7 @@ import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 import io.realm.exceptions.RealmMigrationNeededException;
 
 import static android.app.Activity.RESULT_OK;
@@ -72,8 +78,17 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
     private FirebaseAuth firebaseAuth;
     private Realm realm;
     private LinearLayoutManager layoutManager;
-    //idea đang duoc thao tac;
     private Idea ideaedit;
+    private ArrayList<Picture> pictures;
+    private String pos;
+
+    public AddIdeaFragment(Idea ideaedit){
+        this.ideaedit = ideaedit;
+    }
+    public AddIdeaFragment()
+    {
+        this.ideaedit = null;
+    }
 
     @Nullable
     @Override
@@ -92,16 +107,25 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
             Realm.deleteRealm(realmConfiguration);
             realm = Realm.getInstance(realmConfiguration);
         }
-
         initView(rootView);
 
         return rootView;
     }
 
     private void initView(View rootView) {
+
+
+
         edtTitle = (EditText) rootView.findViewById(R.id.edt_addidea_title);
         edtTag = (EditText) rootView.findViewById(R.id.edt_addidea_tag);
         edtDescription = (EditText) rootView.findViewById(R.id.edt_addidea_desciption);
+        if (ideaedit != null)
+        {
+            edtTitle.setText(ideaedit.getTitle());
+            edtTag.setText(ideaedit.getCategory());
+            edtDescription.setText(ideaedit.getDescription());
+        }
+
         btnAttach = (Button) rootView.findViewById(R.id.btn_addidea_add_file);
         gvPhoto = (RecyclerView) rootView.findViewById(R.id.gv_addidea);
         btnSubmit = (Button) rootView.findViewById(R.id.btn_addidea_submit_idea);
@@ -110,7 +134,26 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         listBitmaps = new ArrayList<>();
         layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         photoUrlList = new ArrayList<>();
-        adapter = new GridViewPhotoAdapter(listBitmaps, getActivity(), new GridViewPhotoAdapter.OnItemLongClickListener() {
+
+        pictures = new ArrayList<>();
+        if (ideaedit == null)
+        {
+            Toast.makeText(getContext(),"null",Toast.LENGTH_SHORT).show();
+            RealmResults<Picture> realmResults = realm.where(Picture.class).equalTo("Key","0").findAll();
+            for (int i = 0; i< realmResults.size(); i++)
+            {
+                pictures.add(realmResults.get(i));
+            }
+
+        } else
+        {
+            RealmResults<Picture> realmResults = realm.where(Picture.class).equalTo("titletime",ideaedit.getTitletime()).findAll();
+            for (int i = 0; i< realmResults.size(); i++)
+            {
+                pictures.add(realmResults.get(i));
+            }
+        }
+        adapter = new GridViewPhotoAdapter(pictures,getActivity(), new GridViewPhotoAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(int position) {
                 listBitmaps.remove(position);
@@ -126,6 +169,12 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         btnSubmit.setOnClickListener(this);
         btnSave.setOnClickListener(this);
         btnAttach.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
     }
 
@@ -172,6 +221,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         realm.beginTransaction();
         ideaedit.setTitle(edtTitle.getText().toString());
         ideaedit.setCategory(edtTag.getText().toString());
+
         ideaedit.setDescription(edtDescription.getText().toString());
         realm.commitTransaction();
     }
@@ -193,6 +243,19 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         realm.beginTransaction();
         realm.copyToRealm(idea);
         realm.commitTransaction();
+
+        //save picture with primary key idea
+
+        while (realm.where(Picture.class).equalTo("Key","0").findFirst() != null)
+        {
+            Picture picture = realm.where(Picture.class).equalTo("Key","0").findFirst();
+            realm.beginTransaction();
+            picture.setTitletime(idea.getTitletime());
+            picture.setKey("1");
+            realm.commitTransaction();
+        }
+
+        pictures.clear();
     }
 
     private void sendDataToServer() {
@@ -281,13 +344,6 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
 
         if (requestCode == Constants.REQUEST_CODE && resultCode == RESULT_OK && imageReturnedIntent != null) {
             ArrayList<Image> imageList = imageReturnedIntent.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
-            //TODO : add list image to realm
-//                        if (ideaedit!=null)
-//                        {
-//                            savePictureOfEditIdeatoRealm(bitmap);
-//                        } else {
-//                            savePictureOfNewIdeatoRealm(bitmap);
-//                        }
             for (Image child : imageList) {
                 listBitmaps.add(child.path);
 
@@ -295,6 +351,15 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                 File newFile = new File(child.path);
                 Bitmap myBitmap = BitmapFactory.decodeFile(newFile.getAbsolutePath());
                 saveImageToStorage(myBitmap);
+
+                //save image to realm
+                if (ideaedit!=null)
+                {
+                    savePictureOfEditIdeatoRealm(myBitmap);
+                } else {
+                    savePictureOfNewIdeatoRealm(myBitmap);
+                }
+
             }
             adapter.notifyDataSetChanged();
         }
@@ -309,6 +374,12 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
 //        images.setCreateTitletime(time + ideaedit.getTitletime());
         images.setKey("0");
         images.setPicture(btm);
+
+        realm.beginTransaction();
+        realm.copyToRealm(images);
+        realm.commitTransaction();
+        pictures.add(images);
+
     }
 
     private void savePictureOfEditIdeatoRealm(Bitmap bitmap) {
@@ -320,6 +391,11 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         images.setCreateTitletime(time + ideaedit.getTitletime());
         images.setKey("1");
         images.setPicture(btm);
+
+        realm.beginTransaction();
+        realm.copyToRealm(images);
+        realm.commitTransaction();
+        pictures.add(images);
     }
 
     private void clearContent() {

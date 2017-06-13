@@ -1,6 +1,9 @@
 package com.apt5.propulsion.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -17,16 +20,22 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.apt5.propulsion.Keys;
 import com.apt5.propulsion.R;
 import com.apt5.propulsion.fragment.AddIdeaFragment;
 import com.apt5.propulsion.fragment.DraftFragment;
 import com.apt5.propulsion.fragment.MyIdeaFragment;
 import com.apt5.propulsion.fragment.WorldIdeaFragment;
+import com.apt5.propulsion.object.Idea;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -86,12 +95,33 @@ public class MainActivity extends AppCompatActivity
             Glide.with(header.getContext()).load(firebaseAuth.getCurrentUser().getPhotoUrl()).into(imgUserAvatar);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                navigationView.getMenu().findItem(R.id.nav_addidea).setChecked(true);
+
+                Bundle bundle = intent.getBundleExtra("data");
+                String pos = bundle.getString("position");
+                Realm.init(context);
+                RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+                Realm realm = Realm.getInstance(realmConfiguration);
+
+                Idea ideaedit = realm.where(Idea.class).equalTo("titletime",pos).findFirst();
+                Toast.makeText(context,ideaedit.getTitle(),Toast.LENGTH_SHORT).show();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                AddIdeaFragment addIdeaFragment = new AddIdeaFragment(ideaedit);
+                fragmentTransaction.replace(R.id.fragment_container,addIdeaFragment);
+                fragmentTransaction.commit();
+
+            }
+        },new IntentFilter(Keys.CHANGE_FRAGMENT_START_SEND));
 
     }
 
