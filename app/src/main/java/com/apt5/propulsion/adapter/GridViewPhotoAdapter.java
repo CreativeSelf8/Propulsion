@@ -83,7 +83,7 @@ public class GridViewPhotoAdapter extends RecyclerView.Adapter<GridViewPhotoAdap
             return bitmapList.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         Activity context;
 
@@ -101,11 +101,6 @@ public class GridViewPhotoAdapter extends RecyclerView.Adapter<GridViewPhotoAdap
 
                 }
             });
-        }
-
-        @Override
-        public boolean onLongClick(View v) {
-            return false;
         }
     }
 

@@ -150,6 +150,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onItemLongClick(int position) {
                 listBitmaps.remove(position);
+                pictures.remove(position);
                 adapter.notifyDataSetChanged();
             }
         });
