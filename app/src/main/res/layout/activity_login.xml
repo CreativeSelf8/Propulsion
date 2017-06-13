@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/google_plus"
+                android:src="@drawable/super_g"
                 app:layout_marginLeftPercent="10%" />
 
             <TextView
@@ -54,11 +54,11 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:gravity="center"
-                android:text="Google +"
+                android:text="Sign in with Google"
                 android:textAllCaps="false"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/text_size_small"
-                app:layout_marginLeftPercent="35%"
+                app:layout_marginLeftPercent="30%"
 
                 />
         </android.support.percent.PercentRelativeLayout>

@@ -122,10 +122,8 @@ public class MainActivity extends AppCompatActivity
                 AddIdeaFragment addIdeaFragment = new AddIdeaFragment(ideaedit);
                 fragmentTransaction.replace(R.id.fragment_container,addIdeaFragment);
                 fragmentTransaction.commit();
-
             }
         },new IntentFilter(Keys.CHANGE_FRAGMENT_START_SEND));
-
     }
 
     @Override

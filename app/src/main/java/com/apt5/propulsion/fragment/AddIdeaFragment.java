@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.apt5.propulsion.CommonMethod;
 import com.apt5.propulsion.R;
+import com.apt5.propulsion.WrapContentLinearLayoutManager;
 import com.apt5.propulsion.adapter.GridViewPhotoAdapter;
 import com.apt5.propulsion.object.Idea;
 import com.apt5.propulsion.object.IdeaFb;
@@ -74,11 +75,9 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
     private ArrayList<String> photoUrlList;
     private FirebaseAuth firebaseAuth;
     private Realm realm;
-    private LinearLayoutManager layoutManager;
+    private WrapContentLinearLayoutManager layoutManager;
     private Idea ideaedit;
     private ArrayList<Picture> pictures;
-    private String pos;
-
     public AddIdeaFragment(Idea ideaedit){
         this.ideaedit = ideaedit;
     }
@@ -126,8 +125,15 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         btnSave = (Button) rootView.findViewById(R.id.btn_addidea_save_as_draft);
         btnDelete = (Button) rootView.findViewById(R.id.btn_addidea_delete);
         listBitmaps = new ArrayList<>();
-        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        layoutManager = new WrapContentLinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         photoUrlList = new ArrayList<>();
+
+        while (realm.where(Picture.class).equalTo("Key", "0").findFirst() != null) {
+            Picture picture = realm.where(Picture.class).equalTo("Key", "0").findFirst();
+            realm.beginTransaction();
+            picture.deleteFromRealm();
+            realm.commitTransaction();
+        }
 
         pictures = new ArrayList<>();
         if (ideaedit == null)
@@ -146,16 +152,11 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                 pictures.add(realmResults.get(i));
             }
         }
-        adapter = new GridViewPhotoAdapter(pictures,getActivity(), new GridViewPhotoAdapter.OnItemLongClickListener() {
-            @Override
-            public void onItemLongClick(int position) {
-                listBitmaps.remove(position);
-                adapter.notifyDataSetChanged();
-            }
-        });
+        adapter = new GridViewPhotoAdapter(pictures, getActivity());
 
         gvPhoto.setAdapter(adapter);
         gvPhoto.setLayoutManager(layoutManager);
+
         photoUrlList = new ArrayList<>();
 
         btnDelete.setOnClickListener(this);
@@ -202,6 +203,12 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
             }
         } else if (v == btnSubmit) {
             sendDataToServer();
+            while (realm.where(Picture.class).equalTo("Key", "0").findFirst() != null) {
+                Picture picture = realm.where(Picture.class).equalTo("Key", "0").findFirst();
+                realm.beginTransaction();
+                picture.deleteFromRealm();
+                realm.commitTransaction();
+            }
         }
     }
 
@@ -209,7 +216,6 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         realm.beginTransaction();
         ideaedit.setTitle(edtTitle.getText().toString());
         ideaedit.setCategory(edtTag.getText().toString());
-
         ideaedit.setDescription(edtDescription.getText().toString());
         realm.commitTransaction();
     }
@@ -321,7 +327,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
                 double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
 
                 //displaying percentage in progress dialog
-                progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
+                progressDialog.setMessage("Uploading...");
             }
         });
     }
@@ -358,14 +364,15 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         Picture images = new Picture();
         Date date = Calendar.getInstance().getTime();
         String time = date.toString();
+        images.setCreateTitletime(System.currentTimeMillis() + "");
         images.setKey("0");
         images.setPicture(btm);
 
         realm.beginTransaction();
         realm.copyToRealm(images);
         realm.commitTransaction();
-        pictures.add(images);
 
+        pictures.add(images);
     }
 
     private void savePictureOfEditIdeatoRealm(Bitmap bitmap) {

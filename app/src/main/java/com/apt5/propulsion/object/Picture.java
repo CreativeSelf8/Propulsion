@@ -1,12 +1,18 @@
 package com.apt5.propulsion.object;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 /**
  * Created by Tran Truong on 5/19/2017.
  */
 
 public class Picture extends RealmObject{
+
+    @PrimaryKey
+    @Required
+
     private String createTitletime;
     private String titletime;
     private String Key;
