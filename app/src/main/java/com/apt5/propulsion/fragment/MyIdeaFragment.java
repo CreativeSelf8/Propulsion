@@ -1,7 +1,6 @@
 package com.apt5.propulsion.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 
 import com.apt5.propulsion.CommonMethod;
 import com.apt5.propulsion.R;
-import com.apt5.propulsion.activity.DetailIdeaActivity;
 import com.apt5.propulsion.adapter.GlideImageGridViewAdapter;
 import com.apt5.propulsion.adapter.WorldIdeaRecyclerViewAdapter;
 import com.apt5.propulsion.object.IdeaFb;
@@ -29,7 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static com.apt5.propulsion.ConstantVar.CHILD_IDEA;
@@ -74,9 +71,7 @@ public class MyIdeaFragment extends Fragment {
         adapter = new WorldIdeaRecyclerViewAdapter(new WorldIdeaRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(IdeaFb content, View view, int position) {
-                Intent intent = new Intent(getActivity(), DetailIdeaActivity.class);
-                intent.putExtra("IDEA_ID", content.getId());
-                startActivity(intent);
+                showDetail(view, content);
             }
         }, ideaList, getActivity(), database, firebaseAuth.getCurrentUser().getUid(), firebaseAuth);
 
@@ -129,7 +124,6 @@ public class MyIdeaFragment extends Fragment {
                         ideaList.add(idea);
                     }
                 }
-                Collections.reverse(ideaList);
                 adapter.notifyDataSetChanged();
             }
 
