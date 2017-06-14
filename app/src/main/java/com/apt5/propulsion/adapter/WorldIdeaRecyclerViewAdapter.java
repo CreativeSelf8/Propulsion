@@ -117,10 +117,10 @@ public class WorldIdeaRecyclerViewAdapter
                 });
                 //set notification
                 if (!firebaseAuth.getCurrentUser().getUid().equals(listIdea.get(position).getAuthorId())) {
-                    String id = database.getReference().child(CHILD_NOTIFICATION).child(listIdea.get(position).getAuthorId()).getKey();
+                    String id = database.getReference().child(CHILD_NOTIFICATION).child(listIdea.get(position).getAuthorId()).push().getKey();
                     database.getReference().child(CHILD_NOTIFICATION).child(listIdea.get(position).getAuthorId())
                             .child(id).setValue(new Message(firebaseAuth.getCurrentUser().getDisplayName() + " like your idea : " + listIdea.get(position).getTitle(),
-                            firebaseAuth.getCurrentUser().getUid()));
+                            firebaseAuth.getCurrentUser().getUid(), listIdea.get(position).getId()));
                 }
             }
         });
@@ -231,10 +231,10 @@ public class WorldIdeaRecyclerViewAdapter
 
                     //set notification
                     if (!firebaseAuth.getCurrentUser().getUid().equals(idea.getAuthorId())) {
-                        String id = database.getReference().child(CHILD_NOTIFICATION).child(idea.getAuthorId()).getKey();
+                        String id = database.getReference().child(CHILD_NOTIFICATION).child(idea.getAuthorId()).push().getKey();
                         database.getReference().child(CHILD_NOTIFICATION).child(idea.getAuthorId())
                                 .child(id).setValue(new Message(firebaseAuth.getCurrentUser().getDisplayName() + " comment on your idea : " + idea.getTitle(),
-                                firebaseAuth.getCurrentUser().getUid()));
+                                firebaseAuth.getCurrentUser().getUid(), idea.getId()));
                     }
                 }
             }
@@ -289,7 +289,6 @@ public class WorldIdeaRecyclerViewAdapter
                     view.setText(listLiked.size() + " people like this");
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 

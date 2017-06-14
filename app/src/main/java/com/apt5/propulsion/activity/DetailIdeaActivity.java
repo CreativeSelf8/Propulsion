@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,10 +74,9 @@ public class DetailIdeaActivity extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_full_detail_idea);
 
         ideaId = getIntent().getStringExtra("IDEA_ID");
-        Log.i("id====", ideaId);
 
         initView();
-//        getData();
+        getData();
     }
 
     private void getData() {
@@ -98,7 +96,7 @@ public class DetailIdeaActivity extends AppCompatActivity implements View.OnClic
                 }
                 if (dataSnapshot.hasChild("author")) {
                     idea.setAuthor(dataSnapshot.child("author").getValue().toString());
-                    tvAuthor.setText(idea.getAuthor());
+                    tvAuthor.setText("Posted by " + idea.getAuthor());
                 }
                 if (dataSnapshot.hasChild("tag")) {
                     idea.setTag(dataSnapshot.child("tag").getValue().toString());
@@ -117,6 +115,15 @@ public class DetailIdeaActivity extends AppCompatActivity implements View.OnClic
                         listLike.add(snapshot.getKey());
                     }
                     idea.setLikeList(listLike);
+                    if (idea.getLikeList() != null) {
+                        if (idea.getLikeList().contains(firebaseAuth.getCurrentUser().getUid())) {
+                            llLike.setVisibility(View.GONE);
+                            llLiked.setVisibility(View.VISIBLE);
+                        } else {
+                            llLiked.setVisibility(View.GONE);
+                            llLike.setVisibility(View.VISIBLE);
+                        }
+                    }
                     tvLikeCount.setText(idea.getLikeList().size() + " like ");
                 }
                 if (dataSnapshot.hasChild("photoUrl")) {
@@ -128,16 +135,16 @@ public class DetailIdeaActivity extends AppCompatActivity implements View.OnClic
                     imageAdapter.notifyDataSetChanged();
                     idea.setPhotoUrl(listImage);
                 }
-                if (dataSnapshot.hasChild("commentList")) {
-                    ArrayList<Comment> listComment = new ArrayList<>();
-                    for (DataSnapshot snapshot : dataSnapshot.child("commentList").getChildren()) {
-                        listComment.add(snapshot.getValue(Comment.class));
-                        commentList.add(snapshot.getValue(Comment.class));
-                    }
-                    imageAdapter.notifyDataSetChanged();
-                    scrollMyListViewToBottom();
-                    idea.setCommentList(listComment);
-                }
+//                if (dataSnapshot.hasChild("commentList")) {
+//                    ArrayList<Comment> listComment = new ArrayList<>();
+//                    for (DataSnapshot snapshot : dataSnapshot.child("commentList").getChildren()) {
+//                        listComment.add(snapshot.getValue(Comment.class));
+//                        commentList.add(snapshot.getValue(Comment.class));
+//                    }
+//                    commentAdapter.notifyDataSetChanged();
+//                    scrollMyListViewToBottom();
+//                    idea.setCommentList(listComment);
+//                }
             }
 
             @Override
@@ -146,6 +153,7 @@ public class DetailIdeaActivity extends AppCompatActivity implements View.OnClic
             }
         });
 
+        getCommentList();
         updateLike(tvLikeCount);
     }
 
@@ -183,6 +191,7 @@ public class DetailIdeaActivity extends AppCompatActivity implements View.OnClic
         llLike.setOnClickListener(this);
         llLiked.setOnClickListener(this);
         llComment.setOnClickListener(this);
+
     }
 
     @Override
@@ -211,7 +220,7 @@ public class DetailIdeaActivity extends AppCompatActivity implements View.OnClic
             }
         } else if (v == llComment) {
             scrollMyListViewToBottom();
-            edtComment.setFocusable(true);
+            edtComment.setCursorVisible(true);
         } else if (v == llLike) {
             firebaseDatabase.getReference().child(CHILD_IDEA).child(ideaId)
                     .child(CHILD_LIKELIST).child(firebaseAuth.getCurrentUser().getUid()).setValue(System.currentTimeMillis(), new DatabaseReference.CompletionListener() {
@@ -294,5 +303,6 @@ public class DetailIdeaActivity extends AppCompatActivity implements View.OnClic
 
             }
         });
+        scrollMyListViewToBottom();
     }
 }

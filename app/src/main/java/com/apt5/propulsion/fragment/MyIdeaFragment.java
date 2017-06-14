@@ -1,6 +1,7 @@
 package com.apt5.propulsion.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.apt5.propulsion.CommonMethod;
 import com.apt5.propulsion.R;
+import com.apt5.propulsion.activity.DetailIdeaActivity;
 import com.apt5.propulsion.adapter.GlideImageGridViewAdapter;
 import com.apt5.propulsion.adapter.WorldIdeaRecyclerViewAdapter;
 import com.apt5.propulsion.object.IdeaFb;
@@ -71,7 +73,9 @@ public class MyIdeaFragment extends Fragment {
         adapter = new WorldIdeaRecyclerViewAdapter(new WorldIdeaRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(IdeaFb content, View view, int position) {
-                showDetail(view, content);
+                Intent intent = new Intent(getActivity(), DetailIdeaActivity.class);
+                intent.putExtra("IDEA_ID", content.getId());
+                startActivity(intent);
             }
         }, ideaList, getActivity(), database, firebaseAuth.getCurrentUser().getUid(), firebaseAuth);
 
