@@ -32,12 +32,12 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.MainActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"></activity>
 
         <activity
             android:name=".activity.DetailIdeaActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait"></activity>
 
         <service
