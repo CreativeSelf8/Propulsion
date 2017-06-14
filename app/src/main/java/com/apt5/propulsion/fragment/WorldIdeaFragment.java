@@ -114,9 +114,6 @@ public class WorldIdeaFragment extends Fragment implements SwipeRefreshLayout.On
                     if (child.hasChild("date")) {
                         idea.setDate(child.child("date").getValue(long.class));
                     }
-                    if (child.hasChild("id")) {
-                        idea.setId(child.child("id").getValue().toString());
-                    }
                     if (child.hasChild("authorId")) {
                         idea.setAuthorId(child.child("authorId").getValue().toString());
                     }

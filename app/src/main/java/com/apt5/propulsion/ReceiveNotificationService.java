@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.apt5.propulsion.activity.DetailIdeaActivity;
 import com.apt5.propulsion.object.Message;
@@ -56,6 +57,7 @@ public class ReceiveNotificationService extends Service {
         databaseReference.child(CHILD_NOTIFICATION).child(currentFirebaseUser.getUid()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.i("DATA===", dataSnapshot.toString());
                 Message message = dataSnapshot.getValue(Message.class);
                 String content = message.getContent();
                 int hashCode = message.getSenderId().hashCode();
@@ -67,13 +69,6 @@ public class ReceiveNotificationService extends Service {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Message message = dataSnapshot.getValue(Message.class);
-                String content = message.getContent();
-                int hashCode = message.getSenderId().hashCode();
-                String ideaId = message.getIdeaId();
-                Intent intent = new Intent(ReceiveNotificationService.this, DetailIdeaActivity.class);
-                intent.putExtra("IDEA_ID", ideaId);
-                pushNoti(content, hashCode, intent);
             }
 
             @Override

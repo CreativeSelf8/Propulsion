@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -73,10 +74,11 @@ public class DetailIdeaActivity extends AppCompatActivity implements View.OnClic
 
         setContentView(R.layout.activity_full_detail_idea);
 
-        ideaId = getIntent().getExtras().getString("IDEA_ID");
+        ideaId = getIntent().getStringExtra("IDEA_ID");
+        Log.i("id====", ideaId);
 
         initView();
-        getData();
+//        getData();
     }
 
     private void getData() {
