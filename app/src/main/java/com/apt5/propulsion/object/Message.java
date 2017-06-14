@@ -7,13 +7,23 @@ package com.apt5.propulsion.object;
 public class Message {
     private String content;
     private String senderId;
+    private String ideaId;
 
     public Message() {
     }
 
-    public Message(String content, String senderId) {
+    public Message(String content, String senderId, String ideaId) {
         this.content = content;
         this.senderId = senderId;
+        this.ideaId = ideaId;
+    }
+
+    public String getIdeaId() {
+        return ideaId;
+    }
+
+    public void setIdeaId(String ideaId) {
+        this.ideaId = ideaId;
     }
 
     public String getContent() {

@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AddIdeaFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new WorldIdeaFragment()).commit();
         }
 
         authStateListener = new FirebaseAuth.AuthStateListener() {

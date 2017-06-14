@@ -1,0 +1,243 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:id="@+id/rl_actionbar"
+        android:background="@color/colorPrimary">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_keyboard_return_white_24dp"
+            android:id="@+id/imgBack"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comment"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_medium"
+            android:layout_toRightOf="@+id/imgBack"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/rl_actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        android:id="@+id/ll_fullidea_detail">
+
+        <TextView
+            android:id="@+id/tv_item_fullidea_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:text="AAAAAA"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_big" />
+
+        <TextView
+            android:id="@+id/tv_item_fullidea_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="15/05/2017"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_verysmall" />
+
+        <TextView
+            android:id="@+id/tv_item_fullidea_tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="#android"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_verysmall" />
+
+        <TextView
+            android:id="@+id/tv_item_fullidea_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Adasdjsadjasdsad"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_average" />
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rv_listImage"></android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_item_fullidea_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="By AAAAAAA"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_verysmall" />
+
+        <TextView
+            android:id="@+id/tv_item_fullidea_likecount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="0 people like this"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_verysmall" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:weightSum="2"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_fullidea_like"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.01"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/ic_like_uncheck" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:text="Like"
+                    android:textSize="@dimen/text_size_medium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_fullidea_liked"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/ic_like" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:text="Like"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_medium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_fullidea_comment"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:src="@drawable/ic_comment" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="Comment"
+                    android:textSize="@dimen/text_size_medium" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@android:color/darker_gray"
+        android:layout_below="@+id/ll_fullidea_detail" />
+
+    <ListView
+        android:id="@+id/commentsListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_marginTop="10dp"
+        android:paddingBottom="50dp"
+        android:layout_below="@+id/ll_fullidea_detail" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/ll_fullidea_commentfield"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:src="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <EditText
+                android:id="@+id/writeComment"
+                android:hint="Write a Comment"
+                android:layout_width="0dp"
+                android:layout_weight="9"
+                android:layout_height="match_parent"
+                android:textSize="12dp"
+                android:textColor="@color/black"
+                android:background="#00000000" />
+
+            <Button
+                android:layout_width="0dp"
+                android:id="@+id/btn_comment_send"
+                android:layout_weight="1"
+                android:background="@drawable/ic_send_comment"
+                android:layout_height="35dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
