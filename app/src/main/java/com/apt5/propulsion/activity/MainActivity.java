@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apt5.propulsion.Keys;
 import com.apt5.propulsion.R;
@@ -32,10 +33,17 @@ import com.apt5.propulsion.fragment.MyIdeaFragment;
 import com.apt5.propulsion.fragment.WorldIdeaFragment;
 import com.apt5.propulsion.object.Idea;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 
+import es.dmoral.toasty.Toasty;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -51,6 +59,7 @@ public class MainActivity extends AppCompatActivity
     private TextView tvUserMail;
     private NavigationView navigationView;
     private ImageView imgLogout;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +86,19 @@ public class MainActivity extends AppCompatActivity
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new WorldIdeaFragment()).commit();
             }
         }
+
+        //google api client
+        //init google login
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext()).enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+            @Override
+            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                Toasty.error(MainActivity.this, "Your account doesnot exists", Toast.LENGTH_LONG, true).show();
+            }
+        }).addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -207,6 +229,12 @@ public class MainActivity extends AppCompatActivity
                         case DialogInterface.BUTTON_POSITIVE:
                             //sign out
                             FirebaseAuth.getInstance().signOut();
+                            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                                    new ResultCallback<Status>() {
+                                        @Override
+                                        public void onResult(@NonNull Status status) {
+                                        }
+                                    });
 
                             startActivity(new Intent(MainActivity.this, LoginActivity.class));
                             finish();

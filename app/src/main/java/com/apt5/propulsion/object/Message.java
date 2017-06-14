@@ -8,14 +8,24 @@ public class Message {
     private String content;
     private String senderId;
     private String ideaId;
+    private String status;
 
     public Message() {
     }
 
-    public Message(String content, String senderId, String ideaId) {
+    public Message(String content, String senderId, String ideaId, String status) {
         this.content = content;
         this.senderId = senderId;
         this.ideaId = ideaId;
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getIdeaId() {

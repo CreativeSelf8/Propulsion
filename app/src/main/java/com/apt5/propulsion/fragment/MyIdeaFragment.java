@@ -29,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.apt5.propulsion.ConstantVar.CHILD_IDEA;
@@ -128,6 +129,7 @@ public class MyIdeaFragment extends Fragment {
                         ideaList.add(idea);
                     }
                 }
+                Collections.reverse(ideaList);
                 adapter.notifyDataSetChanged();
             }
 

@@ -9,15 +9,25 @@ public class Comment {
     private String author;
     private long date;
     private String id;
+    private String status;
 
     public Comment() {
     }
 
-    public Comment(String content, String author, long date, String id) {
+    public Comment(String content, String author, long date, String id, String status) {
         this.content = content;
         this.author = author;
         this.date = date;
         this.id = id;
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getId() {

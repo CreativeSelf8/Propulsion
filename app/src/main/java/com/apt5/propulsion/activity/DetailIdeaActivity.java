@@ -206,7 +206,7 @@ public class DetailIdeaActivity extends AppCompatActivity implements View.OnClic
                 String commentId = commentRef.getKey();
                 firebaseDatabase.getReference().child(CHILD_IDEA).child(ideaId).child(CHILD_COMMENTLIST)
                         .child(commentId).setValue(new Comment(comment, FirebaseAuth.getInstance().getCurrentUser().getDisplayName()
-                        , System.currentTimeMillis(), commentId));
+                        , System.currentTimeMillis(), commentId, "0"));
                 edtComment.setText("");
                 getCommentList();
 
@@ -215,7 +215,7 @@ public class DetailIdeaActivity extends AppCompatActivity implements View.OnClic
                     String id = firebaseDatabase.getReference().child(CHILD_NOTIFICATION).child(idea.getAuthorId()).push().getKey();
                     firebaseDatabase.getReference().child(CHILD_NOTIFICATION).child(idea.getAuthorId())
                             .child(id).setValue(new Message(firebaseAuth.getCurrentUser().getDisplayName() + " comment on your idea : " + idea.getTitle(),
-                            firebaseAuth.getCurrentUser().getUid(), idea.getId()));
+                            firebaseAuth.getCurrentUser().getUid(), idea.getId(), "0"));
                 }
             }
         } else if (v == llComment) {
@@ -240,7 +240,7 @@ public class DetailIdeaActivity extends AppCompatActivity implements View.OnClic
                 String id = firebaseDatabase.getReference().child(CHILD_NOTIFICATION).child(idea.getAuthorId()).push().getKey();
                 firebaseDatabase.getReference().child(CHILD_NOTIFICATION).child(idea.getAuthorId())
                         .child(id).setValue(new Message(firebaseAuth.getCurrentUser().getDisplayName() + " like your idea : " + idea.getTitle(),
-                        firebaseAuth.getCurrentUser().getUid(), idea.getId()));
+                        firebaseAuth.getCurrentUser().getUid(), idea.getId(), "0"));
             }
         } else if (v == llLiked) {
             firebaseDatabase.getReference().child(CHILD_IDEA).child(ideaId)

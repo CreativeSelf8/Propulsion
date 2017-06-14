@@ -120,7 +120,7 @@ public class WorldIdeaRecyclerViewAdapter
                     String id = database.getReference().child(CHILD_NOTIFICATION).child(listIdea.get(position).getAuthorId()).push().getKey();
                     database.getReference().child(CHILD_NOTIFICATION).child(listIdea.get(position).getAuthorId())
                             .child(id).setValue(new Message(firebaseAuth.getCurrentUser().getDisplayName() + " like your idea : " + listIdea.get(position).getTitle(),
-                            firebaseAuth.getCurrentUser().getUid(), listIdea.get(position).getId()));
+                            firebaseAuth.getCurrentUser().getUid(), listIdea.get(position).getId(), "0"));
                 }
             }
         });
@@ -225,7 +225,7 @@ public class WorldIdeaRecyclerViewAdapter
                     String commentId = commentRef.getKey();
                     database.getReference().child(CHILD_IDEA).child(idea.getId()).child(CHILD_COMMENTLIST)
                             .child(commentId).setValue(new Comment(comment, FirebaseAuth.getInstance().getCurrentUser().getDisplayName()
-                            , System.currentTimeMillis(), commentId));
+                            , System.currentTimeMillis(), commentId, "0"));
                     edtComment.setText("");
                     getCommentList(idea);
 
@@ -234,7 +234,7 @@ public class WorldIdeaRecyclerViewAdapter
                         String id = database.getReference().child(CHILD_NOTIFICATION).child(idea.getAuthorId()).push().getKey();
                         database.getReference().child(CHILD_NOTIFICATION).child(idea.getAuthorId())
                                 .child(id).setValue(new Message(firebaseAuth.getCurrentUser().getDisplayName() + " comment on your idea : " + idea.getTitle(),
-                                firebaseAuth.getCurrentUser().getUid(), idea.getId()));
+                                firebaseAuth.getCurrentUser().getUid(), idea.getId(), "0"));
                     }
                 }
             }
