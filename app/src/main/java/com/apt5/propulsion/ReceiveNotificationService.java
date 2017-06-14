@@ -11,7 +11,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
-import com.apt5.propulsion.activity.DetailIdeaActivity;
+import com.apt5.propulsion.activity.MainActivity;
 import com.apt5.propulsion.object.Message;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -59,9 +59,7 @@ public class ReceiveNotificationService extends Service {
                 Message message = dataSnapshot.getValue(Message.class);
                 String content = message.getContent();
                 int hashCode = message.getSenderId().hashCode();
-                String ideaId = message.getIdeaId();
-                Intent intent = new Intent(ReceiveNotificationService.this, DetailIdeaActivity.class);
-                intent.putExtra("IDEA_ID", ideaId);
+                Intent intent = new Intent(ReceiveNotificationService.this, MainActivity.class);
                 pushNoti(content, hashCode, intent);
             }
 
@@ -70,9 +68,7 @@ public class ReceiveNotificationService extends Service {
                 Message message = dataSnapshot.getValue(Message.class);
                 String content = message.getContent();
                 int hashCode = message.getSenderId().hashCode();
-                String ideaId = message.getIdeaId();
-                Intent intent = new Intent(ReceiveNotificationService.this, DetailIdeaActivity.class);
-                intent.putExtra("IDEA_ID", ideaId);
+                Intent intent = new Intent(ReceiveNotificationService.this, MainActivity.class);
                 pushNoti(content, hashCode, intent);
             }
 
