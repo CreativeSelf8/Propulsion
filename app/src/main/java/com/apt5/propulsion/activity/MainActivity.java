@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().findItem(R.id.nav_addidea).setChecked(true);
+        navigationView.getMenu().findItem(R.id.nav_worldidea).setChecked(true);
 
         //display user info
         if (currentUser != null) {

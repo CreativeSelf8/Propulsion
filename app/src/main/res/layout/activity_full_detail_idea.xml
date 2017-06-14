@@ -33,9 +33,9 @@
         android:layout_below="@+id/rl_actionbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="20dp"
         android:layout_marginBottom="10dp"
         android:orientation="vertical"
         android:id="@+id/ll_fullidea_detail">
@@ -117,7 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
-                    android:src="@drawable/ic_like_uncheck" />
+                    android:src="@mipmap/ic_action_unlike" />
 
                 <TextView
                     android:id="@+id/textView"
@@ -125,6 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
+                    android:textColor="@color/black"
                     android:text="Like"
                     android:textSize="@dimen/text_size_medium" />
             </LinearLayout>
@@ -169,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="15dp"
-                    android:src="@drawable/ic_comment" />
+                    android:src="@mipmap/ic_comment" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -179,6 +180,7 @@
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="Comment"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_medium" />
             </LinearLayout>
         </LinearLayout>
@@ -234,7 +236,7 @@
                 android:layout_width="0dp"
                 android:id="@+id/btn_comment_send"
                 android:layout_weight="1"
-                android:background="@drawable/ic_send_comment"
+                android:background="@mipmap/ic_send_comment"
                 android:layout_height="35dp" />
         </LinearLayout>
 
