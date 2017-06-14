@@ -32,7 +32,7 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activity.MainActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:windowSoftInputMode="adjustPan|adjustResize"
             android:screenOrientation="portrait"></activity>
 
         <service

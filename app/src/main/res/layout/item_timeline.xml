@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="330dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/activity_horizontal_margin"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
     android:layout_marginLeft="@dimen/activity_horizontal_margin"
     android:layout_marginRight="@dimen/activity_horizontal_margin">
 
@@ -41,17 +41,17 @@
             android:id="@+id/tv_item_timeline_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Adasdjsadjasdsad"
             android:ellipsize="end"
             android:maxLines="2"
+            android:text="Adasdjsadjasdsad"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_average" />
 
         <TextView
-            android:layout_marginTop="10dp"
             android:id="@+id/tv_item_timeline_author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="By AAAAAAA"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_verysmall" />
@@ -68,36 +68,32 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:src="@android:color/darker_gray"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:src="@android:color/darker_gray" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:weightSum="2"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/ll_timeline_like"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.01"
-                android:orientation="horizontal"
-                android:weightSum="1">
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/ic_like_uncheck" />
+                    android:src="@mipmap/ic_action_unlike" />
 
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
                     android:text="Like"
                     android:textSize="@dimen/text_size_medium" />
             </LinearLayout>
@@ -106,23 +102,20 @@
                 android:id="@+id/ll_timeline_liked"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.01"
+                android:layout_weight="1"
                 android:orientation="horizontal"
-                android:weightSum="1"
                 android:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/ic_like" />
+                    android:src="@mipmap/ic_action_like" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
                     android:text="Like"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/text_size_medium" />
@@ -141,14 +134,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="15dp"
-                    android:src="@drawable/ic_comment" />
+                    android:src="@mipmap/ic_comment" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:text="Comment"
