@@ -33,6 +33,7 @@ import com.apt5.propulsion.fragment.MyIdeaFragment;
 import com.apt5.propulsion.fragment.WorldIdeaFragment;
 import com.apt5.propulsion.object.Idea;
 import com.bumptech.glide.Glide;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -73,6 +74,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() == null) {
+                    //sign out
+                    FirebaseAuth.getInstance().signOut();
+                    //log out facebook
+                    LoginManager.getInstance().logOut();
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     finish();
                 }
@@ -235,7 +240,7 @@ public class MainActivity extends AppCompatActivity
                                         public void onResult(@NonNull Status status) {
                                         }
                                     });
-
+                            LoginManager.getInstance().logOut();
                             startActivity(new Intent(MainActivity.this, LoginActivity.class));
                             finish();
 

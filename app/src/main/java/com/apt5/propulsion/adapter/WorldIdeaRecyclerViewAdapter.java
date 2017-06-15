@@ -92,10 +92,11 @@ public class WorldIdeaRecyclerViewAdapter
 
         final String date = CommonMethod.convertToTime(listIdea.get(position).getDate());
 
-        holder.tvTitle.setText(listIdea.get(position).getTitle() + "");
-        holder.tvDescription.setText(listIdea.get(position).getDescription() + "");
+        holder.tvTitle.setText("Title : " + listIdea.get(position).getTitle() + "");
+        holder.tvDescription.setText("Description :" + listIdea.get(position).getDescription() + "");
         holder.tvAuthor.setText("Posted by " + listIdea.get(position).getAuthor());
-        holder.tvDate.setText(date);
+        holder.tvTag.setText("Tag : " + listIdea.get(position).getTag());
+        holder.tvDate.setText("Posted on " + date);
 
         updateLike(holder.tvLikeCount, listIdea.get(position).getId());
 
@@ -154,6 +155,7 @@ public class WorldIdeaRecyclerViewAdapter
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView tvTitle;
         public TextView tvDate;
+        public TextView tvTag;
         public TextView tvAuthor;
         public LinearLayout btnLike;
         public LinearLayout btnComment;
@@ -164,6 +166,7 @@ public class WorldIdeaRecyclerViewAdapter
         public ViewHolder(View view) {
             super(view);
             tvTitle = (TextView) view.findViewById(R.id.tv_item_timeline_title);
+            tvTag = (TextView) view.findViewById(R.id.tv_item_timeline_tag);
             tvAuthor = (TextView) view.findViewById(R.id.tv_item_timeline_author);
             tvDate = (TextView) view.findViewById(R.id.tv_item_timeline_date);
             tvLikeCount = (TextView) view.findViewById(R.id.tv_item_timeline_likecount);

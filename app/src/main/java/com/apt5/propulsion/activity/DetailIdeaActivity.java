@@ -85,14 +85,14 @@ public class DetailIdeaActivity extends AppCompatActivity implements View.OnClic
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild("title")) {
                     idea.setTitle(dataSnapshot.child("title").getValue().toString());
-                    tvTitle.setText(idea.getTitle());
+                    tvTitle.setText("Title : " + idea.getTitle());
                 }
                 if (dataSnapshot.hasChild("id")) {
                     idea.setId(dataSnapshot.child("id").getValue().toString());
                 }
                 if (dataSnapshot.hasChild("description")) {
                     idea.setDescription(dataSnapshot.child("description").getValue().toString());
-                    tvDescription.setText(idea.getDescription());
+                    tvDescription.setText("Description : " + idea.getDescription());
                 }
                 if (dataSnapshot.hasChild("author")) {
                     idea.setAuthor(dataSnapshot.child("author").getValue().toString());
@@ -100,11 +100,11 @@ public class DetailIdeaActivity extends AppCompatActivity implements View.OnClic
                 }
                 if (dataSnapshot.hasChild("tag")) {
                     idea.setTag(dataSnapshot.child("tag").getValue().toString());
-                    tvTag.setText(idea.getTag());
+                    tvTag.setText("Tag : " + idea.getTag());
                 }
                 if (dataSnapshot.hasChild("date")) {
                     idea.setDate(dataSnapshot.child("date").getValue(long.class));
-                    tvDate.setText(CommonMethod.convertToDate(idea.getDate()));
+                    tvDate.setText("Posted on " + CommonMethod.convertToDate(idea.getDate()));
                 }
                 if (dataSnapshot.hasChild("authorId")) {
                     idea.setAuthorId(dataSnapshot.child("authorId").getValue().toString());
