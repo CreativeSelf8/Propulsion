@@ -24,9 +24,6 @@ import berlin.volders.rxdownload.RxDownloadManager;
 
 import static com.apt5.propulsion.ConstantVar.FULL_IMAGE;
 
-/**
- * Created by Van Quyen on 6/11/2017.
- */
 
 public class FullImageDialogFragment extends DialogFragment {
     private ArrayList<String> listUrlPhoto = new ArrayList<>();

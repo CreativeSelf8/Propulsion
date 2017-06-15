@@ -14,9 +14,6 @@ import com.apt5.propulsion.object.Comment;
 
 import java.util.List;
 
-/**
- * Created by Van Quyen on 5/16/2017.
- */
 
 public class CommentListViewAdapter extends BaseAdapter {
     private List<Comment> commentList;

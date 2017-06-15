@@ -56,9 +56,6 @@ import static android.app.Activity.RESULT_OK;
 import static android.widget.Toast.LENGTH_SHORT;
 import static com.apt5.propulsion.ConstantVar.CHILD_IDEA;
 
-/**
- * Created by Van Quyen on 5/15/2017.
- */
 
 public class AddIdeaFragment extends Fragment implements View.OnClickListener {
     private EditText edtTitle;

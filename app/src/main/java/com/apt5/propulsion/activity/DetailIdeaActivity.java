@@ -39,10 +39,6 @@ import static com.apt5.propulsion.ConstantVar.CHILD_IDEA;
 import static com.apt5.propulsion.ConstantVar.CHILD_LIKELIST;
 import static com.apt5.propulsion.ConstantVar.CHILD_NOTIFICATION;
 
-/**
- * Created by Van Quyen on 6/14/2017.
- */
-
 public class DetailIdeaActivity extends AppCompatActivity implements View.OnClickListener {
     private LinearLayout llComment;
     private TextView tvTitle;

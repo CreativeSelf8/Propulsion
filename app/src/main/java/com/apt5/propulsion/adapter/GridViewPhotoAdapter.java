@@ -18,9 +18,6 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
-/**
- * Created by Van Quyen on 5/15/2017.
- */
 
 public class GridViewPhotoAdapter extends RecyclerView.Adapter<GridViewPhotoAdapter.ViewHolder> {
     private ArrayList<Picture> bitmapList;

@@ -34,9 +34,6 @@ import java.util.List;
 
 import static com.apt5.propulsion.ConstantVar.CHILD_IDEA;
 
-/**
- * Created by Van Quyen on 5/15/2017.
- */
 
 public class MyIdeaFragment extends Fragment {
 

@@ -8,9 +8,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * Created by Van Quyen on 5/15/2017.
- */
 
 public class CommonMethod {
     public static String convertToDate(long time) {

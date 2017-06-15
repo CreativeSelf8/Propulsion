@@ -26,9 +26,6 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import io.realm.exceptions.RealmMigrationNeededException;
 
-/**
- * Created by Tran Truong on 4/11/2017.
- */
 
 public class DraftFragment extends Fragment {
     private RealmConfiguration realmConfiguration;

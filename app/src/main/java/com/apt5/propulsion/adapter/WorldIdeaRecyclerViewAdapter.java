@@ -39,9 +39,6 @@ import static com.apt5.propulsion.ConstantVar.CHILD_IDEA;
 import static com.apt5.propulsion.ConstantVar.CHILD_LIKELIST;
 import static com.apt5.propulsion.ConstantVar.CHILD_NOTIFICATION;
 
-/**
- * Created by Van Quyen on 5/15/2017.
- */
 
 public class WorldIdeaRecyclerViewAdapter
         extends RecyclerView.Adapter<WorldIdeaRecyclerViewAdapter.ViewHolder> {

@@ -24,9 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import static com.apt5.propulsion.ConstantVar.CHILD_NOTIFICATION;
 
-/**
- * Created by Van Quyen on 6/14/2017.
- */
 
 public class ReceiveNotificationService extends Service {
     DatabaseReference databaseReference;

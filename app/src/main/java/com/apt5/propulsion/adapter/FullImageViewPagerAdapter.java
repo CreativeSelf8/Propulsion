@@ -8,9 +8,6 @@ import com.apt5.propulsion.fragment.FullImageFragment;
 
 import java.util.ArrayList;
 
-/**
- * Created by Van Quyen on 6/12/2017.
- */
 
 public class FullImageViewPagerAdapter extends FragmentPagerAdapter {
     private ArrayList<String> listUrlPhoto;

@@ -16,9 +16,6 @@ import java.util.ArrayList;
 
 import static com.apt5.propulsion.ConstantVar.FULL_IMAGE;
 
-/**
- * Created by Van Quyen on 5/15/2017.
- */
 
 public class GlideImageGridViewAdapter extends RecyclerView.Adapter<GlideImageGridViewAdapter.ViewHolder> {
     private ArrayList<String> urlList;

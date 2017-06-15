@@ -1,8 +1,5 @@
 package com.apt5.propulsion.activity;
 
-/**
- * Created by Van Quyen on 5/15/2017.
- */
 
 import android.content.Intent;
 import android.os.Bundle;

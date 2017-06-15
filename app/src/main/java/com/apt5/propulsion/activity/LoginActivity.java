@@ -37,10 +37,6 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import es.dmoral.toasty.Toasty;
 
-/**
- * Created by Van Quyen on 5/15/2017.
- */
-
 public class LoginActivity extends AppCompatActivity {
 
     private PercentRelativeLayout btnGoogle;

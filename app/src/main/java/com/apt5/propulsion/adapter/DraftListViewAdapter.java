@@ -17,9 +17,6 @@ import com.apt5.propulsion.object.Idea;
 
 import java.util.List;
 
-/**
- * Created by Van Quyen on 5/18/2017.
- */
 
 public class DraftListViewAdapter extends BaseAdapter {
     private List<Idea> ideaList;

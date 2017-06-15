@@ -1,8 +1,5 @@
 package com.apt5.propulsion;
 
-/**
- * Created by Van Quyen on 5/22/2017.
- */
 
 public class Keys {
     final public static String RELOAD_DATA_FROM_REALM = "Reloaddata";

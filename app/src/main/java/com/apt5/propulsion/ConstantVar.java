@@ -1,8 +1,5 @@
 package com.apt5.propulsion;
 
-/**
- * Created by Van Quyen on 5/15/2017.
- */
 
 public class ConstantVar {
     public static final String CHILD_IDEA = "idea";

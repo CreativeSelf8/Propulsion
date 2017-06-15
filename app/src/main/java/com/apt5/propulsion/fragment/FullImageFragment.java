@@ -11,9 +11,6 @@ import android.widget.ImageView;
 import com.apt5.propulsion.R;
 import com.bumptech.glide.Glide;
 
-/**
- * Created by Van Quyen on 6/12/2017.
- */
 
 public class FullImageFragment extends Fragment {
     private ImageView imgFull;
