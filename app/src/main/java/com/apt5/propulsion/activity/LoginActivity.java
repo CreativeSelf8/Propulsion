@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
         btnGoogle = (PercentRelativeLayout) findViewById(R.id.btGoogle);
         btnFacebook = (LoginButton) findViewById(R.id.loginWithFb);
-        flFacebook = (FrameLayout) findViewById(R.id.rl_loginFb);
+        flFacebook = (FrameLayout) findViewById(R.id.fl_loginFb);
         btnFacebook.setReadPermissions("email");
         callbackManager = CallbackManager.Factory.create();
 
