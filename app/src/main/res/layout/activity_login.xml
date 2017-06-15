@@ -59,9 +59,52 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/text_size_average"
                 app:layout_marginLeftPercent="30%"
-
                 />
         </android.support.percent.PercentRelativeLayout>
+
+        <FrameLayout
+            android:layout_width="250dp"
+            android:layout_gravity="center"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:id="@+id/fl_loginFb">
+
+            <com.facebook.login.widget.LoginButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/loginWithFb" />
+
+            <android.support.percent.PercentRelativeLayout
+                android:layout_width="250dp"
+                android:layout_gravity="center"
+                android:layout_height="50dp"
+                android:background="@drawable/border_button_fb_login">
+
+                <ImageView
+                    android:id="@+id/ivFacebookIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/facebook"
+                    app:layout_marginLeftPercent="10%" />
+
+                <TextView
+                    android:id="@+id/tvFacebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:text="Sign in with Facebook"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_average"
+                    app:layout_marginLeftPercent="30%" />
+            </android.support.percent.PercentRelativeLayout>
+
+        </FrameLayout>
+
+
     </LinearLayout>
 
 </LinearLayout>

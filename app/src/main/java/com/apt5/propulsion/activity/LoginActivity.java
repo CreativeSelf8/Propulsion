@@ -9,9 +9,17 @@ import android.support.percent.PercentRelativeLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.apt5.propulsion.R;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -23,6 +31,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
@@ -40,15 +49,24 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
     private FirebaseAuth firebaseAuth;
+    private LoginButton btnFacebook;
+    private CallbackManager callbackManager;
+    private FrameLayout flFacebook;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
         FirebaseApp.initializeApp(this);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        setContentView(R.layout.activity_login);
 
         btnGoogle = (PercentRelativeLayout) findViewById(R.id.btGoogle);
+        btnFacebook = (LoginButton) findViewById(R.id.loginWithFb);
+        flFacebook = (FrameLayout) findViewById(R.id.rl_loginFb);
+        btnFacebook.setReadPermissions("email");
+        callbackManager = CallbackManager.Factory.create();
+
         loadingProgressBar = new ProgressDialog(this);
         loadingProgressBar.setCancelable(false);
         loadingProgressBar.setMessage(getString(R.string.txt_initiate_user_data));
@@ -80,6 +98,43 @@ public class LoginActivity extends AppCompatActivity {
                 signIn();
             }
         });
+
+        btnFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                handleFacebookAccessToken(loginResult.getAccessToken());
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+                Toast.makeText(LoginActivity.this, "Canceled", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+                Log.i("ERROR====", exception.toString());
+            }
+        });
+
+        flFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnFacebook.performClick();
+            }
+        });
+    }
+
+    private void handleFacebookAccessToken(AccessToken accessToken) {
+        AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        handleTaskResult(task);
+                    }
+                });
     }
 
     private void signIn() {
@@ -103,6 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                 // ...
             }
         }
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
@@ -121,6 +177,7 @@ public class LoginActivity extends AppCompatActivity {
         if (!task.isSuccessful()) {
             Toasty.error(LoginActivity.this, "Authentication failed.",
                     Toast.LENGTH_SHORT, true).show();
+            Log.i("AUTH===", task.getException().toString());
         } else {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();

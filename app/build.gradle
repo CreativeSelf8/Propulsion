@@ -61,6 +61,7 @@ dependencies {
     compile 'com.artjimlop:altex-image-downloader:0.0.4'
     compile 'com.github.volders:RxDownloadManager:11bd0bb418'
     compile 'com.github.GrenderG:Toasty:1.2.5'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'
