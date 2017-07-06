@@ -377,8 +377,7 @@ public class AddIdeaFragment extends Fragment implements View.OnClickListener {
         byte[] btm = CommonMethod.BitmaptoByteArray(bitmap);
         Picture images = new Picture();
         images.setTitletime(ideaedit.getTitletime());
-        Date date = Calendar.getInstance().getTime();
-        String time = date.toString();
+        String time = System.currentTimeMillis()+"";
         images.setCreateTitletime(time + ideaedit.getTitletime());
         images.setKey("1");
         images.setPicture(btm);

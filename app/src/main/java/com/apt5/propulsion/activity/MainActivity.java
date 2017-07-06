@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity
     private NavigationView navigationView;
     private ImageView imgLogout;
     private GoogleApiClient mGoogleApiClient;
+    private BroadcastReceiver broadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,26 +134,9 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                navigationView.getMenu().findItem(R.id.nav_addidea).setChecked(true);
-
-                Bundle bundle = intent.getBundleExtra("data");
-                String pos = bundle.getString("position");
-                Realm.init(context);
-                RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
-                Realm realm = Realm.getInstance(realmConfiguration);
-
-                Idea ideaedit = realm.where(Idea.class).equalTo("titletime",pos).findFirst();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                AddIdeaFragment addIdeaFragment = new AddIdeaFragment(ideaedit);
-                fragmentTransaction.replace(R.id.fragment_container,addIdeaFragment);
-                fragmentTransaction.commit();
-            }
-        },new IntentFilter(Keys.CHANGE_FRAGMENT_START_SEND));
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -222,6 +206,30 @@ public class MainActivity extends AppCompatActivity
     protected void onStop() {
         super.onStop();
         firebaseAuth.removeAuthStateListener(authStateListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                navigationView.getMenu().findItem(R.id.nav_addidea).setChecked(true);
+
+                Bundle bundle = intent.getBundleExtra("data");
+                String pos = bundle.getString("position");
+                Realm.init(context);
+                RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
+                Realm realm = Realm.getInstance(realmConfiguration);
+
+                Idea ideaedit = realm.where(Idea.class).equalTo("titletime",pos).findFirst();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                AddIdeaFragment addIdeaFragment = new AddIdeaFragment(ideaedit);
+                fragmentTransaction.replace(R.id.fragment_container,addIdeaFragment);
+                fragmentTransaction.commit();
+            }
+        },new IntentFilter(Keys.CHANGE_FRAGMENT_START_SEND));
     }
 
     @Override

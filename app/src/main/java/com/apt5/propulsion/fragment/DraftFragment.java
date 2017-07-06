@@ -64,14 +64,6 @@ public class DraftFragment extends Fragment {
         super.onResume();
         loadLocalDatabase();
         loadDataforListDrafts();
-
-        //BroadCast reload data from realm
-        getActivity().registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                loadLocalDatabase();
-            }
-        }, new IntentFilter(Keys.RELOAD_DATA_FROM_REALM));
     }
 
     @Nullable
